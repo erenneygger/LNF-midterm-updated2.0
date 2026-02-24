@@ -9,7 +9,7 @@ import Config.config;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import Admin.users;
+import Admin.Item;
 
 /**
  *
@@ -430,7 +430,7 @@ public class Update extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void UsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UsersMouseClicked
-        users Users = new users();
+        Item Users = new Item();
         Users.setVisible(true);
         dispose();
     }//GEN-LAST:event_UsersMouseClicked

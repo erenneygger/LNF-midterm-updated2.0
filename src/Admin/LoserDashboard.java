@@ -66,7 +66,7 @@ public class LoserDashboard extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 0, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ADMIN DASHBOARD");
+        jLabel1.setText("LOST AND FOUND HUB");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(194, 27, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 130));
@@ -278,9 +278,10 @@ public class LoserDashboard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 20, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,11 +293,11 @@ public class LoserDashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     public void setColor(javax.swing.JPanel p){
-        p.setBackground(new java.awt.Color(0, 204, 204));
+        p.setBackground(new java.awt.Color(240, 240, 240));
     }
     
     public void resetColor(javax.swing.JPanel p2){
-        p2.setBackground(new java.awt.Color(0, 153, 153));
+        p2.setBackground(new java.awt.Color(102, 102, 102));
     }
     private void Home1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Home1MouseEntered
         setColor(Home1);
@@ -307,9 +308,12 @@ public class LoserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_Home1MouseExited
 
     private void itemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemMouseClicked
-        users Users = new users();
-        Users.setVisible(true);
-        dispose();
+                                         
+        // This opens the Item list (which we just updated to show tbl_items)
+        Item itemFrame = new Item(); 
+        itemFrame.setVisible(true);
+        this.dispose(); // Closes the Dashboard
+    
     }//GEN-LAST:event_itemMouseClicked
 
     private void itemMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemMouseEntered

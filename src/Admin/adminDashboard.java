@@ -48,7 +48,7 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JPanel();
         jLabel8logout = new javax.swing.JLabel();
-        Reports = new javax.swing.JPanel();
+        Approve = new javax.swing.JPanel();
         jLabel7reports = new javax.swing.JLabel();
         Profile = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -112,38 +112,38 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jPanel1.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, -1, 80));
 
-        Reports.setBackground(new java.awt.Color(102, 102, 102));
-        Reports.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Reports.addMouseListener(new java.awt.event.MouseAdapter() {
+        Approve.setBackground(new java.awt.Color(102, 102, 102));
+        Approve.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        Approve.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ReportsMouseEntered(evt);
+                ApproveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                ReportsMouseExited(evt);
+                ApproveMouseExited(evt);
             }
         });
 
         jLabel7reports.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jLabel7reports.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7reports.setText("Reports");
+        jLabel7reports.setText("Approve status");
 
-        javax.swing.GroupLayout ReportsLayout = new javax.swing.GroupLayout(Reports);
-        Reports.setLayout(ReportsLayout);
-        ReportsLayout.setHorizontalGroup(
-            ReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ReportsLayout.createSequentialGroup()
+        javax.swing.GroupLayout ApproveLayout = new javax.swing.GroupLayout(Approve);
+        Approve.setLayout(ApproveLayout);
+        ApproveLayout.setHorizontalGroup(
+            ApproveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ApproveLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7reports, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
-        ReportsLayout.setVerticalGroup(
-            ReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReportsLayout.createSequentialGroup()
+        ApproveLayout.setVerticalGroup(
+            ApproveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ApproveLayout.createSequentialGroup()
                 .addComponent(jLabel7reports, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel1.add(Reports, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, -1, 80));
+        jPanel1.add(Approve, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, -1, 80));
 
         Profile.setBackground(new java.awt.Color(102, 102, 102));
         Profile.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -339,9 +339,18 @@ public class adminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_UsersMouseEntered
 
     private void UsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UsersMouseClicked
-        users Users = new users();
-        Users.setVisible(true);
-        dispose();
+                                           
+                                                                    
+
+        users userForm = new users(); 
+        
+        // 2. Make the user form visible
+        userForm.setVisible(true);
+        
+        // 3. Close the current Admin Dashboard
+        this.dispose(); 
+    
+
     }//GEN-LAST:event_UsersMouseClicked
 
     private void HomeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeMouseExited
@@ -352,13 +361,13 @@ public class adminDashboard extends javax.swing.JFrame {
         setColor(Home);
     }//GEN-LAST:event_HomeMouseEntered
 
-    private void ReportsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReportsMouseExited
-        resetColor(Reports);
-    }//GEN-LAST:event_ReportsMouseExited
+    private void ApproveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ApproveMouseExited
+        resetColor(Approve);
+    }//GEN-LAST:event_ApproveMouseExited
 
-    private void ReportsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReportsMouseEntered
-        setColor(Reports);
-    }//GEN-LAST:event_ReportsMouseEntered
+    private void ApproveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ApproveMouseEntered
+        setColor(Approve);
+    }//GEN-LAST:event_ApproveMouseEntered
 
     private void searchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFieldFocusGained
         if (searchField.getText().equals("Search...")) {
@@ -385,11 +394,11 @@ public class adminDashboard extends javax.swing.JFrame {
            
     
     public void setColor(JPanel p){
-        p.setBackground(new Color(0, 204, 204));
+        p.setBackground(new Color(240, 240, 240));
     }
     
     public void resetColor(JPanel p2){
-        p2.setBackground(new Color(0, 153, 153));
+        p2.setBackground(new Color(102, 102, 102));
     }
     
     /**
@@ -428,9 +437,9 @@ public class adminDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Approve;
     private javax.swing.JPanel Home;
     private javax.swing.JPanel Profile;
-    private javax.swing.JPanel Reports;
     private javax.swing.JPanel Users;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

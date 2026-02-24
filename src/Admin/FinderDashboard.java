@@ -317,7 +317,7 @@ public class FinderDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ProfileMouseExited
 
     private void itemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemMouseClicked
-        users Users = new users();
+        Item Users = new Item();
         Users.setVisible(true);
         dispose();
     }//GEN-LAST:event_itemMouseClicked
@@ -389,11 +389,11 @@ public class FinderDashboard extends javax.swing.JFrame {
 
     }//GEN-LAST:event_logoutBtnMouseClicked
     public void setColor(JPanel p){
-        p.setBackground(new Color(0, 204, 204));
+        p.setBackground(new Color(240, 240, 240));
     }
     
     public void resetColor(JPanel p2){
-        p2.setBackground(new Color(0, 153, 153));
+        p2.setBackground(new Color(102, 102, 102));
     }
     /**
      * @param args the command line arguments
