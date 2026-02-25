@@ -202,71 +202,66 @@ public class Login extends javax.swing.JFrame {
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
                                      
-    config con = new config();
+                                      
+        String email = Email.getText();
+        String password = new String(Pass.getPassword()); // Use getPassword() for JPasswordField
 
-    String email = Email.getText();
-    String password = Pass.getText();
-
-    if (email.equals("") || password.equals("")) {
-        JOptionPane.showMessageDialog(null, "Please fill in all fields!");
-        return;
-    }
-
-    // 1. SQL now includes 'u_fname'
-    String sql = "SELECT a_id, status, type, fname FROM tbl_accounts WHERE email = ? AND pass = ?";
-
-    String status = null;
-    String userType = null;
-    
-    try (
-        java.sql.Connection conn = Config.config.connectDB();
-        java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-    ) {
-
-        pst.setString(1, email);
-        pst.setString(2, password);
-
-        java.sql.ResultSet rs = pst.executeQuery();
-
-        if (rs.next()) {
-            // 2. Extract values from the Database
-            int userId = rs.getInt("a_id");
-            status = rs.getString("status");
-            userType = rs.getString("type");
-            String name = rs.getString("fname"); // NEW: Get the name
-
-            // 3. Save to Session class
-            Session.userId = userId;
-            Session.name = name;           // NEW: Save the name
-            
-        } else {
-            JOptionPane.showMessageDialog(null, "Invalid email or password!");
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill in all fields!");
             return;
         }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Login Error: " + e.getMessage());
-        return;
-    }
+        // SQL Query - we fetch everything we need at once
+        String sql = "SELECT a_id, status, type, fname FROM tbl_accounts WHERE email = ? AND pass = ?";
 
-    // 4. Status Check
-    if (status != null && !status.equalsIgnoreCase("Active")) {
-        JOptionPane.showMessageDialog(null, "Your account is inactive. Please contact the administrator.");
-        return;
-    }
+        try (
+            java.sql.Connection conn = Config.config.connectDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+        ) {
+            pst.setString(1, email);
+            pst.setString(2, password);
 
-    JOptionPane.showMessageDialog(null, "LOGIN SUCCESS!");
+            java.sql.ResultSet rs = pst.executeQuery();
 
-    // 5. Dashboard Redirection
-    if (userType.equalsIgnoreCase("Admin")) {
-        new adminDashboard().setVisible(true);
-    } else if (userType.equalsIgnoreCase("Finder")) {
-        new FinderDashboard().setVisible(true);
-    } else if (userType.equalsIgnoreCase("Loser")) {
-        new LoserDashboard().setVisible(true);
-    }
+            if (rs.next()) {
+                // 1. EXTRACT DATA FROM DATABASE
+                int userId = rs.getInt("a_id");
+                String status = rs.getString("status");
+                String userType = rs.getString("type");
+                String name = rs.getString("fname");
 
-    dispose();
+                // 2. CHECK ACCOUNT STATUS FIRST
+                if (status != null && !status.equalsIgnoreCase("Active")) {
+                    JOptionPane.showMessageDialog(null, "Your account is inactive. Contact Admin.");
+                    return;
+                }
+
+                // 3. SAVE TO SESSION (This fixes your errors in other pages!)
+                Config.Session.userId = userId;
+                Config.Session.name = name;
+                Config.Session.type = userType;
+
+                JOptionPane.showMessageDialog(null, "LOGIN SUCCESS!");
+
+                // 4. REDIRECT BASED ON TYPE
+                if (userType.equalsIgnoreCase("Admin")) {
+                    new Admin.adminDashboard().setVisible(true);
+                } else if (userType.equalsIgnoreCase("Finder")) {
+                    new Admin.FinderDashboard().setVisible(true);
+                } else {
+                    new Admin.LoserDashboard().setVisible(true);
+                }
+
+                this.dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid email or password!");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Login Error: " + e.getMessage());
+        }
+    
 
     }//GEN-LAST:event_jPanel4MouseClicked
 

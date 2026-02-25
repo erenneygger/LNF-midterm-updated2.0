@@ -115,6 +115,9 @@ public class adminDashboard extends javax.swing.JFrame {
         Approve.setBackground(new java.awt.Color(102, 102, 102));
         Approve.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         Approve.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ApproveMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 ApproveMouseEntered(evt);
             }
@@ -125,7 +128,7 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jLabel7reports.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jLabel7reports.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7reports.setText("Approve status");
+        jLabel7reports.setText("Manage Item");
 
         javax.swing.GroupLayout ApproveLayout = new javax.swing.GroupLayout(Approve);
         Approve.setLayout(ApproveLayout);
@@ -339,16 +342,16 @@ public class adminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_UsersMouseEntered
 
     private void UsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UsersMouseClicked
-                                           
-                                                                    
+                                            
+    // 1. Create the instance of the users window
+users userPage = new users(); 
 
-        users userForm = new users(); 
-        
-        // 2. Make the user form visible
-        userForm.setVisible(true);
-        
-        // 3. Close the current Admin Dashboard
-        this.dispose(); 
+// 2. Show the users window
+userPage.setVisible(true);
+
+// 3. Close the current Admin Dashboard
+this.dispose();
+
     
 
     }//GEN-LAST:event_UsersMouseClicked
@@ -390,6 +393,19 @@ public class adminDashboard extends javax.swing.JFrame {
     private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_searchFieldKeyReleased
+
+    private void ApproveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ApproveMouseClicked
+                                          
+    // 1. Create the instance of the ManageItem window
+    ManageItem itemPage = new ManageItem(); 
+    
+    // 2. Make it show up on the screen
+    itemPage.setVisible(true);
+    
+    // 3. Close the current Admin Dashboard
+    this.dispose(); 
+
+    }//GEN-LAST:event_ApproveMouseClicked
 
            
     

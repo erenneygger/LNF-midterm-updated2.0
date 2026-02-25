@@ -19,24 +19,34 @@ public class Item extends javax.swing.JFrame {
     /**
      * Creates new form users
      */
-    public Item() {
-        initComponents();
-        displayUser();
-        
-        this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
+    public Item() {       
+    // 1. THE GATEKEEPER: Check session first
+    if (Config.Session.userId == 0) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Login Required!");
+        new Main.Login().setVisible(true);
+        this.dispose();
+        return; // This is the "Stop" sign for the code
+    }
+
+    // 2. THE CONTENT: Only runs if userId is NOT 0
+    initComponents();
+    displayUser();
+    
+    this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
         @Override
         public void windowGainedFocus(java.awt.event.WindowEvent e) {
             displayUser();
         }
     });
-    }
+}
     
 void displayUser(){
-        config cn = new config();
-        // Updated to select from tbl_items in your preferred order
-        String sql = "SELECT item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items";
-        cn.displayData(sql, usertable);
-    }
+       
+    config cn = new config();
+    // We select exactly what the table needs to show
+    String sql = "SELECT item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items";
+    cn.displayData(sql, usertable);
+}
     
     
     /**
@@ -227,11 +237,11 @@ void displayUser(){
 
             },
             new String [] {
-                "ID", "item", "Full Name", "Time & Date", "Place/Location", "User Type", "Last Name", "Status"
+                "ID", "Item Name", "Time & Date", "Location", "Type", "Reported By", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -359,7 +369,7 @@ void displayUser(){
 
     private void AddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddMouseClicked
                                     
-    additem add = new additem();
+    additemLF add = new additemLF();
     add.setVisible(true);
     this.dispose(); // Closes the list view
 

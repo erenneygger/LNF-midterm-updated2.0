@@ -30,9 +30,22 @@ public class profile extends javax.swing.JFrame {
     displayData();
     }
 
-    private profile() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public profile() {
+    // 1. GATEKEEPER CHECK
+    if (Config.Session.userId == 0) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Login Required!");
+        new Main.Login().setVisible(true);
+        this.dispose();
+        return; 
     }
+    
+    // 2. SET THE ID FROM SESSION
+    this.userId = Config.Session.userId;
+    
+    // 3. START UI
+    initComponents();
+    displayData();
+}
     
     private void displayData() {
     try {
@@ -343,7 +356,4 @@ public class profile extends javax.swing.JFrame {
     private javax.swing.JLabel ln;
     // End of variables declaration//GEN-END:variables
 
-    private void loadUserData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

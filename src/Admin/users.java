@@ -20,15 +20,32 @@ public class users extends javax.swing.JFrame {
      * Creates new form users
      */
     public users() {
-        initComponents();
-        displayUser();
-        
-        this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
+
+    // 1. Session & Admin Validation
+    if (Config.Session.userId == 0) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Login Required!");
+        new Main.Login().setVisible(true);
+        this.dispose();
+        return;
+    } else if (!Config.Session.type.equalsIgnoreCase("Admin")) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Access Denied! Admins only.");
+        // Redirect non-admins back to a safe place
+        new Admin.profile().setVisible(true); 
+        this.dispose();
+        return;
+    }
+
+    // 2. Initialize UI if validation passes
+    initComponents();
+    displayUser();
+
+    this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
         @Override
         public void windowGainedFocus(java.awt.event.WindowEvent e) {
             displayUser();
         }
     });
+
     }
     
     void displayUser(){
