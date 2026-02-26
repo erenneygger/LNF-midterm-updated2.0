@@ -50,7 +50,7 @@ public class profile extends javax.swing.JFrame {
     private void displayData() {
     try {
         Connection con = config.connectDB();
-        String sql = "SELECT fname, lname, a_id, email, type, pass FROM tbl_accounts WHERE a_id = ?";
+        String sql = "SELECT fname, lname, a_id, email, type FROM tbl_accounts WHERE a_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, userId);
 
@@ -61,8 +61,7 @@ public class profile extends javax.swing.JFrame {
             Ln.setText(rs.getString("lname"));
             id.setText(rs.getString("a_id"));
             Em.setText(rs.getString("email"));
-            Ut.setText(rs.getString("type"));
-            Pw.setText(rs.getString("pass"));
+            Ut.setText(rs.getString("type"));           
             fn.setText(rs.getString("fname"));
             ln.setText(rs.getString("lname"));
         }
@@ -159,6 +158,11 @@ public class profile extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("EDIT");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout EditLayout = new javax.swing.GroupLayout(Edit);
         Edit.setLayout(EditLayout);
@@ -281,6 +285,22 @@ public class profile extends javax.swing.JFrame {
     }
     dispose();
     }//GEN-LAST:event_BackMouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+                                     
+    // Pull the text from your labels
+    String fname = Fn.getText();
+    String lname = Ln.getText();
+    String email = Em.getText();
+    String type = Ut.getText();
+    
+    // Open EditProfile with only 5 arguments (NO password)
+    EditProfile ep = new EditProfile(userId, fname, lname, email, type);
+    ep.setVisible(true);
+    this.dispose();
+
+
+    }//GEN-LAST:event_jLabel3MouseClicked
     public void setColor(JPanel p){
         p.setBackground(new Color(0, 204, 204));
     }

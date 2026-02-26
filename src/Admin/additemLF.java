@@ -204,28 +204,30 @@ public class additemLF extends javax.swing.JFrame {
                                   
                                     
                                        
+                                    
     config conf = new config();
     
-    // 1. SQL Query - Make sure these column names match your SQLite table exactly
-    String sql = "INSERT INTO tbl_items (item_name, item_type, item_place, item_date, item_status) VALUES (?, ?, ?, ?, ?)";
+    // 1. Combine First and Last Name for the 'reported_by' column
+    String reporter = firstname.getText() + " " + lastname.getText();
     
-    // 2. Execute addRecord using your actual variable names (Item, Type, place, timedate)
+    // 2. Updated SQL - Ensure columns match your tbl_items exactly
+    // Note: I used item_time to match your Item.java display query
+    String sql = "INSERT INTO tbl_items (item_name, item_type, item_location, item_time, item_status, reported_by) VALUES (?, ?, ?, ?, ?, ?)";
+    
+    // 3. Execute with 6 parameters
     conf.addRecord(sql, 
-                   Item.getText(), 
-                   Type.getText(), 
-                   place.getText(), 
-                   timedate.getText(), 
-                   "Pending");
+                   Item.getText(),      // item_name
+                   Type.getText(),      // item_type
+                   place.getText(),     // item_location
+                   timedate.getText(),  // item_time
+                   "Pending",           // item_status
+                   reporter);           // reported_by
     
-    // 3. Feedback to user
     javax.swing.JOptionPane.showMessageDialog(null, "Item Reported Successfully!");
 
-    // 4. THE REDIRECT to LoserDashboard
-    // If LoserDashboard is in a different package, ensure you have the import at the top
-    LoserDashboard ld = new LoserDashboard();
-    ld.setVisible(true);
-
-    // 5. Close this current window
+    // 4. Redirect
+    Item itm = new Item();
+    itm.setVisible(true);
     this.dispose();
 
 

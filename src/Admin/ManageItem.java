@@ -41,12 +41,16 @@ public class ManageItem extends javax.swing.JFrame {
 }
     
 void displayUser(){
-        config cn = new config();
-        // Updated to select from tbl_items in your preferred order
-        String sql = "SELECT item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items";
-        cn.displayData(sql, usertable);
-    }
+       
+    // DO NOT open a manual connection here. 
+    // Let the config class handle the opening AND closing.
+    config cn = new config();
+    String sql = "SELECT item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items";
     
+    // This method in your new config.java uses try-with-resources
+    // It will close the connection as soon as the table is filled.
+    cn.displayData(sql, usertable);
+}
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -480,33 +484,40 @@ void displayUser(){
 
     private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
                                           
+                                       
     int rowIndex = usertable.getSelectedRow();
     
     if (rowIndex < 0) {
-        JOptionPane.showMessageDialog(null, "Please select an item to update!");
+        JOptionPane.showMessageDialog(null, "Please select an item!");
     } else {
+        config conf = new config();
+        java.sql.ResultSet rs = null;
         try {
-            config conf = new config();
-            java.sql.ResultSet rs = conf.getData("SELECT * FROM tbl_items WHERE item_id = '" + usertable.getValueAt(rowIndex, 0) + "'");
+            // Using your existing getData method
+            rs = conf.getData("SELECT * FROM tbl_items WHERE item_id = '" + usertable.getValueAt(rowIndex, 0) + "'");
             
             if (rs.next()) {
                 additem ai = new additem();
-                // Transfer data to additem fields (Ensure these variables are PUBLIC in additem.java)
+                ai.itemId = rs.getInt("item_id");
                 ai.Item.setText(rs.getString("item_name"));
                 ai.timedate.setText(rs.getString("item_time"));
                 ai.place.setText(rs.getString("item_location"));
                 ai.Type.setText(rs.getString("item_type"));
                 ai.firstname.setText(rs.getString("reported_by"));
                 
-                // Switch the form mode to Update
                 ai.jLabel11.setText("UPDATE"); 
                 ai.setVisible(true);
+                
+                // IMPORTANT: Close the ResultSet and its Statement immediately!
+                rs.getStatement().getConnection().close(); 
+                
                 this.dispose();
             }
         } catch (java.sql.SQLException ex) {
-            System.out.println("Error: " + ex.getMessage());
+            System.out.println("Update Error: " + ex.getMessage());
         }
     }
+
 
     }//GEN-LAST:event_updateMouseClicked
 

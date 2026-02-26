@@ -8,26 +8,31 @@ import java.sql.SQLException;
 import net.proteanit.sql.DbUtils;
 
 public class config {
-    
+
+    // 1. New Helper Method for your ManageItem "try-with-resources"
+    public Connection getConnection() {
+        return connectDB();
+    }
+
     // Establishing Connection
     public static Connection connectDB() {
         try {
             Class.forName("org.sqlite.JDBC");
-            // Note: We remove the extra print to keep the console clean
             return DriverManager.getConnection("jdbc:sqlite:lostNfoundDB.db");
         } catch (Exception e) {
             System.out.println("Connection Failed: " + e);
             return null;
         }
     }
-    
-    // SAFE GETDATA: Returns a ResultSet but ensures it's usable
+
+    // FIXED GETDATA: Now uses a more reliable way to fetch single rows
     public ResultSet getData(String sql) throws SQLException {
         Connection conn = connectDB();
         PreparedStatement pstmt = conn.prepareStatement(sql);
-        return pstmt.executeQuery();
+        ResultSet rs = pstmt.executeQuery();
+        return rs;
     }
-    
+
     // Dynamic Update Method
     public void updateRecord(String sql, Object... values) {
         try (Connection conn = connectDB(); 
@@ -56,7 +61,7 @@ public class config {
         }
     }
 
-    // Display data in JTable
+    // Display data in JTable - Automatically closes connection!
     public void displayData(String sql, javax.swing.JTable table) {
         try (Connection conn = connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -85,7 +90,7 @@ public class config {
         return null;
     }
 
-    // Delete Method (Enhanced with automatic closure)
+    // Delete Method
     public void deleteData(int id, String table, String column) {
         String sql = "DELETE FROM " + table + " WHERE " + column + " = ?";
         try (Connection conn = connectDB(); 
@@ -96,8 +101,8 @@ public class config {
                 javax.swing.JOptionPane.showMessageDialog(null, "Deleted Successfully!");
             }
         } catch (SQLException ex) {
-            if (ex.getMessage().contains("locked")) {
-                 javax.swing.JOptionPane.showMessageDialog(null, "Database is busy. Close other windows and try again.");
+            if (ex.getMessage().contains("locked") || ex.getMessage().contains("busy")) {
+                 javax.swing.JOptionPane.showMessageDialog(null, "Database is busy. Close other windows or restart the app.");
             }
             System.out.println("Delete Error: " + ex.getMessage());
         }

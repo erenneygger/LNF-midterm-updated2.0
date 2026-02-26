@@ -19,19 +19,19 @@ public class Item extends javax.swing.JFrame {
     /**
      * Creates new form users
      */
-    public Item() {       
-    // 1. THE GATEKEEPER: Check session first
+   public Item() {       
     if (Config.Session.userId == 0) {
         javax.swing.JOptionPane.showMessageDialog(null, "Login Required!");
         new Main.Login().setVisible(true);
         this.dispose();
-        return; // This is the "Stop" sign for the code
+        return; 
     }
 
-    // 2. THE CONTENT: Only runs if userId is NOT 0
     initComponents();
-    displayUser();
+    displayUser(); // Load data when window opens
     
+    // --- ADD THIS PART BELOW ---
+    // This refreshes the table every time you click back onto the Item window
     this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
         @Override
         public void windowGainedFocus(java.awt.event.WindowEvent e) {
@@ -42,11 +42,13 @@ public class Item extends javax.swing.JFrame {
     
 void displayUser(){
        
+  
     config cn = new config();
-    // We select exactly what the table needs to show
+    // This query pulls the data from your database
     String sql = "SELECT item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items";
     cn.displayData(sql, usertable);
 }
+
     
     
     /**
@@ -237,11 +239,11 @@ void displayUser(){
 
             },
             new String [] {
-                "ID", "Item Name", "Time & Date", "Location", "Type", "Reported By", "Status"
+                "ID", "item ", "Full Name", "Last Name", "Time & Date", "Location", "Type", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, true, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -368,10 +370,11 @@ void displayUser(){
     }//GEN-LAST:event_HomeMouseClicked
 
     private void AddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddMouseClicked
-                                    
+                                     
+    // This opens your data entry form
     additemLF add = new additemLF();
     add.setVisible(true);
-    this.dispose(); // Closes the list view
+    // We do NOT use this.dispose() here so that Item.java stays open in the background
 
     }//GEN-LAST:event_AddMouseClicked
 
