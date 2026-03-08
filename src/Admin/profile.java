@@ -302,11 +302,11 @@ public class profile extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jLabel3MouseClicked
     public void setColor(JPanel p){
-        p.setBackground(new Color(0, 204, 204));
+        p.setBackground(new Color(240, 240, 240));
     }
     
     public void resetColor(JPanel p2){
-        p2.setBackground(new Color(0, 153, 153));
+        p2.setBackground(new Color(102, 102, 102));
     }
     /**
      * @param args the command line arguments

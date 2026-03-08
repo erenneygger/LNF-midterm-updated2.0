@@ -348,11 +348,11 @@ public class users extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     public void setColor(JPanel p){
-        p.setBackground(new Color(0, 204, 204));
+        p.setBackground(new Color(240, 240, 240));
     }
     
     public void resetColor(JPanel p2){
-        p2.setBackground(new Color(0, 153, 153));
+        p2.setBackground(new Color(102, 102, 102));
     }
     
     private void UsersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UsersMouseEntered

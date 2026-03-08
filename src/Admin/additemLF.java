@@ -128,7 +128,7 @@ public class additemLF extends javax.swing.JFrame {
                 jLabel11MouseClicked(evt);
             }
         });
-        save.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, -1));
+        save.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, 30));
 
         jPanel4.add(save, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, 240, 50));
 

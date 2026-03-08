@@ -301,11 +301,11 @@ public class EditProfile extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_UsersMouseClicked
     public void setColor(JPanel p){
-        p.setBackground(new Color(0, 204, 204));
+        p.setBackground(new Color(240, 240, 240));
     }
     
     public void resetColor(JPanel p2){
-        p2.setBackground(new Color(0, 153, 153));
+        p2.setBackground(new Color(102, 102, 102));
     }
     private void UsersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UsersMouseEntered
         setColor(Users);
