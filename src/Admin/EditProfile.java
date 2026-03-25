@@ -1,55 +1,64 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Admin;
 
 import Config.config;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import Admin.Item;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
- *
- * @author jimzj
- */
 public class EditProfile extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Update
-     */
+    public int userId;
+    String imagePath = null;
+    config conf = new config();
+
+   public EditProfile(int a_id, String fname, String lname, String email, String type) {
+    initComponents(); // This is the locked NetBeans method
     
-    int userId;
-    
-    public EditProfile(int a_id, String fname, String lname, String email, String type) {      
-    // ... keep everything else inside the same      
-    // 1. SESSION CHECK (Place this first)
-    if (Config.Session.userId == 0) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Login Required!");
-        new Main.Login().setVisible(true);
-        this.dispose();
-        return; 
+    // 1. INITIALIZE THE LABEL MANUALLY HERE (Crucial to stop the NullPointerException)
+    if (user_image == null) {
+        user_image = new javax.swing.JLabel();
+        user_image.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        user_image.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        user_image.setText("Profile Pic");
+        // Add it to jPanel4 at the specific location
+        jPanel4.add(user_image, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 150, 160, 160));
     }
 
-    // 2. INITIALIZE UI
-    initComponents();
-    
-    // 3. ASSIGN DATA
-    userId = a_id;
+    this.userId = a_id;
+
+    // Fill Text Fields
     firstname.setText(fname);
     lastname.setText(lname);
-    Email.setText(email);   
+    Email.setText(email);
     Type.setText(type);
+
+    // 2. NOW CALL VIEWIMAGE (Now that user_image is no longer null)
+    conf.viewImage("SELECT user_image FROM tbl_accounts WHERE a_id = " + userId, user_image);
 }
+    // Helper to preview selected image
+   public void previewImage(String path) {
+    ImageIcon myImage = new ImageIcon(path);
+    // Change jLabel2 to user_image
+    Image img = myImage.getImage().getScaledInstance(user_image.getWidth(), user_image.getHeight(), Image.SCALE_SMOOTH);
+    user_image.setIcon(new ImageIcon(img));
+}
+    // --- PASTE YOUR GENERATED initComponents() HERE ---
+
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         Users = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -69,7 +78,9 @@ public class EditProfile extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         addU = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
+        browse_btn = new javax.swing.JLabel();
+        addU1 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,8 +96,8 @@ public class EditProfile extends javax.swing.JFrame {
         jLabel1.setText("EDIT PROFILE");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(396, 13, -1, 104));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test3.png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 220, 110));
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test3.png"))); // NOI18N
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 220, 110));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 130));
 
@@ -268,13 +279,36 @@ public class EditProfile extends javax.swing.JFrame {
         });
         addU.setLayout(null);
 
-        jLabel11.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("UPDATE PROFILE");
-        addU.add(jLabel11);
-        jLabel11.setBounds(20, 0, 200, 70);
+        browse_btn.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        browse_btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        browse_btn.setText("UPDATE IMAGE");
+        addU.add(browse_btn);
+        browse_btn.setBounds(20, 0, 200, 70);
 
-        jPanel4.add(addU, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 200, 240, 70));
+        jPanel4.add(addU, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 220, 240, 70));
+
+        addU1.setBackground(new java.awt.Color(153, 153, 153));
+        addU1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        addU1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addU1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                addU1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                addU1MouseExited(evt);
+            }
+        });
+        addU1.setLayout(null);
+
+        jLabel12.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("UPDATE PROFILE");
+        addU1.add(jLabel12);
+        jLabel12.setBounds(20, 0, 200, 70);
+
+        jPanel4.add(addU1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, 240, 70));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 930, 330));
 
@@ -346,35 +380,21 @@ public class EditProfile extends javax.swing.JFrame {
     }//GEN-LAST:event_ReportsMouseExited
 
     private void addUMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addUMouseClicked
-                                        
-                                           
-    config conf = new config();
-
-    // 1. Validation
-    if(firstname.getText().isEmpty() || lastname.getText().isEmpty() || Email.getText().isEmpty()){
-        JOptionPane.showMessageDialog(null, "All fields are required!");
-        return;
+                                    
+                                       
+    JFileChooser browseImageCan = new JFileChooser();
+    FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
+    browseImageCan.addChoosableFileFilter(fnef);
+    
+    int showOpenDialogue = browseImageCan.showOpenDialog(null);
+    if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
+        File selectedImageFile = browseImageCan.getSelectedFile();
+        imagePath = selectedImageFile.getAbsolutePath();
+        // Preview it
+        previewImage(imagePath);
     }
 
-    // 2. SQL Query (Make sure there are exactly 5 question marks)
-    String sql = "UPDATE tbl_accounts SET fname = ?, lname = ?, email = ?, type = ? WHERE a_id = ?";
 
-    // 3. The Update Call (Pass exactly 5 values to match the 5 question marks)
-    // This just runs the update without expecting a number back
-    conf.updateRecord(sql, 
-                       firstname.getText(), 
-                       lastname.getText(), 
-                       Email.getText(), 
-                       Type.getText(), 
-                       userId); 
-
-    // Show the message immediately
-    JOptionPane.showMessageDialog(null, "Profile Updated Successfully!");
-    
-    // Refresh the profile page
-    profile prof = new profile(userId);
-    prof.setVisible(true);
-    this.dispose();
     }//GEN-LAST:event_addUMouseClicked
 
     private void addUMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addUMouseEntered
@@ -384,6 +404,78 @@ public class EditProfile extends javax.swing.JFrame {
     private void addUMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addUMouseExited
         resetColor(addU);
     }//GEN-LAST:event_addUMouseExited
+
+    private void addU1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addU1MouseClicked
+                                   
+                                    
+    // 1. Validation: Ensure required fields aren't empty
+    if(firstname.getText().isEmpty() || lastname.getText().isEmpty() || Email.getText().isEmpty()){
+        JOptionPane.showMessageDialog(null, "Please fill in all text fields!");
+        return;
+    }
+
+    try {
+        if (imagePath != null) {
+            // OPTION A: Update text AND the new image
+            // We convert the file to a byte[] to avoid SQLite "Data Type Mismatch"
+            File file = new File(imagePath);
+            byte[] imgData = new byte[(int) file.length()];
+            FileInputStream fis = new FileInputStream(file);
+            fis.read(imgData);
+            fis.close();
+
+            String sql = "UPDATE tbl_accounts SET fname = ?, lname = ?, email = ?, type = ?, user_image = ? WHERE a_id = ?";
+            
+            // Order: fname(1), lname(2), email(3), type(4), user_image(5), a_id(6)
+            conf.updateRecord(sql, 
+                firstname.getText(), 
+                lastname.getText(), 
+                Email.getText(), 
+                Type.getText(), 
+                imgData, 
+                userId
+            );
+        } else {
+            // OPTION B: Update text only (keeps the old image in DB)
+            String sql = "UPDATE tbl_accounts SET fname = ?, lname = ?, email = ?, type = ? WHERE a_id = ?";
+            
+            conf.updateRecord(sql, 
+                firstname.getText(), 
+                lastname.getText(), 
+                Email.getText(), 
+                Type.getText(), 
+                userId
+            );
+        }
+
+        JOptionPane.showMessageDialog(null, "Profile Updated Successfully!");
+        
+        // 2. Refresh and open the profile view
+        // We pass the 'userId' so profile.java knows which image to load from the DB
+        Admin.profile pfile = new Admin.profile(userId);
+        pfile.setVisible(true);
+        this.dispose();
+
+    } catch (Exception e) {
+        // This will help you see the exact error in the NetBeans output console
+        e.printStackTrace(); 
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
+
+
+    }//GEN-LAST:event_addU1MouseClicked
+
+    private void addU1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addU1MouseEntered
+                                     
+    setColor(addU1); // Turns light gray when you hover
+                                    
+
+
+    }//GEN-LAST:event_addU1MouseEntered
+
+    private void addU1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addU1MouseExited
+    resetColor(addU1); // Turns back to original color
+    }//GEN-LAST:event_addU1MouseExited
 
     /**
      * @param args the command line arguments
@@ -398,14 +490,16 @@ public class EditProfile extends javax.swing.JFrame {
     private javax.swing.JTextField Type;
     private javax.swing.JPanel Users;
     private javax.swing.JPanel addU;
+    private javax.swing.JPanel addU1;
+    private javax.swing.JLabel browse_btn;
     private javax.swing.JTextField firstname;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -416,7 +510,8 @@ public class EditProfile extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JTextField lastname;
     // End of variables declaration//GEN-END:variables
-public static void main(String args[]) {
+private javax.swing.JLabel user_image; // Add this with your other JLabels
+    public static void main(String args[]) {
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
             // We pass dummy values (0, null, etc.) because the constructor 

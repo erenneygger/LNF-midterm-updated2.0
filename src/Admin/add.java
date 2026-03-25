@@ -331,7 +331,7 @@ public class add extends javax.swing.JFrame {
                 jLabel11MouseClicked(evt);
             }
         });
-        addU.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, -1));
+        addU.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 30));
 
         jPanel4.add(addU, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 250, 240, 50));
         jPanel4.add(confpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, 240, 40));
@@ -395,7 +395,11 @@ public class add extends javax.swing.JFrame {
     }//GEN-LAST:event_PassActionPerformed
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        // TODO add your handling code here:
+config con = new config();
+        
+        String sql = "INSERT INTO tbl_accounts (fname, lname, email, type, pass, status) VALUES (?, ?, ?, ?, ?, ?)";
+        con.addRecord(sql, firstname.getText(), lastname.getText(), Email.getText(), Type.getText(), Pass.getText(), "Pending");
+        JOptionPane.showMessageDialog(null, "RECORD ADDED!");        // TODO add your handling code here:
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void ReportsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReportsMouseExited

@@ -5,11 +5,19 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.io.InputStream;
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetProvider;
 import net.proteanit.sql.DbUtils;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class config {
 
-    // 1. New Helper Method for your ManageItem "try-with-resources"
+    public static int userId; 
+
+    // Helper Method for manual connection handling
     public Connection getConnection() {
         return connectDB();
     }
@@ -25,21 +33,58 @@ public class config {
         }
     }
 
-    // FIXED GETDATA: Now uses a more reliable way to fetch single rows
+    // updateData: Simple update method for direct SQL strings
+    public boolean updateData(String sql) {
+        try (Connection conn = connectDB();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+            int rowsUpdated = pst.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException ex) {
+            System.out.println("Update Error: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    // getData: Standard retrieval (Caller must handle connection closing)
     public ResultSet getData(String sql) throws SQLException {
         Connection conn = connectDB();
         PreparedStatement pstmt = conn.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
-        return rs;
+        return pstmt.executeQuery();
     }
 
-    // Dynamic Update Method
-    public void updateRecord(String sql, Object... values) {
-        try (Connection conn = connectDB(); 
+    // safeGetData: Uses CachedRowSet to allow closing connection immediately
+    public ResultSet safeGetData(String sql, Object... values) {
+        try (Connection conn = connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
             for (int i = 0; i < values.length; i++) {
                 pstmt.setObject(i + 1, values[i]);
             }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                CachedRowSet crs = RowSetProvider.newFactory().createCachedRowSet();
+                crs.populate(rs);
+                return crs; 
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in safeGetData: " + e.getMessage());
+            return null;
+        }
+    }
+
+    // updateRecord: Dynamic method that handles mixed data types (including BLOB)
+    public void updateRecord(String sql, Object... values) {
+        try (Connection conn = connectDB(); 
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            for (int i = 0; i < values.length; i++) {
+                if (values[i] instanceof InputStream) {
+                    pstmt.setBinaryStream(i + 1, (InputStream) values[i]);
+                } else {
+                    pstmt.setObject(i + 1, values[i]);
+                }
+            }
+            
             pstmt.executeUpdate();
             System.out.println("Record updated successfully!");
         } catch (SQLException e) {
@@ -47,13 +92,19 @@ public class config {
         }
     }
 
-    // Dynamic Add/Insert Method
+    // addRecord: Dynamic method for inserting records with BLOB support
     public void addRecord(String sql, Object... values) {
         try (Connection conn = connectDB(); 
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
             for (int i = 0; i < values.length; i++) {
-                pstmt.setObject(i + 1, values[i]);
+                if (values[i] instanceof InputStream) {
+                    pstmt.setBinaryStream(i + 1, (InputStream) values[i]);
+                } else {
+                    pstmt.setObject(i + 1, values[i]);
+                }
             }
+            
             pstmt.executeUpdate();
             System.out.println("Record added successfully!");
         } catch (SQLException e) {
@@ -61,14 +112,18 @@ public class config {
         }
     }
 
-    // Display data in JTable - Automatically closes connection!
+    // Display data in JTable
     public void displayData(String sql, javax.swing.JTable table) {
         try (Connection conn = connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             table.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
-            System.out.println("Error displaying data: " + e.getMessage());
+            if(e.getMessage().contains("ResultSet")){
+                 System.out.println("Display Error: Data Type Mismatch (Image included in Select)");
+            } else {
+                 System.out.println("Error displaying data: " + e.getMessage());
+            }
         }
     }
 
@@ -76,9 +131,11 @@ public class config {
     public String authenticate(String sql, Object... values) {
         try (Connection conn = connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
             for (int i = 0; i < values.length; i++) {
                 pstmt.setObject(i + 1, values[i]);
             }
+            
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getString("type");
@@ -101,10 +158,45 @@ public class config {
                 javax.swing.JOptionPane.showMessageDialog(null, "Deleted Successfully!");
             }
         } catch (SQLException ex) {
-            if (ex.getMessage().contains("locked") || ex.getMessage().contains("busy")) {
-                 javax.swing.JOptionPane.showMessageDialog(null, "Database is busy. Close other windows or restart the app.");
-            }
             System.out.println("Delete Error: " + ex.getMessage());
+        }
+    }
+
+    /**
+     * viewImage: Fetches image bytes from DB and fits them into a specific JLabel.
+     * Includes NullPointer protection and default sizing.
+     */
+    public void viewImage(String sql, JLabel label) {
+        // SAFETY CHECK: If the label doesn't exist yet, don't crash the app
+        if (label == null) {
+            System.out.println("Config Error: Target JLabel is null. Image cannot be displayed.");
+            return;
+        }
+
+        try (Connection conn = connectDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            if (rs.next()) {
+                byte[] imgBytes = rs.getBytes(1);
+                if (imgBytes != null) {
+                    ImageIcon myImage = new ImageIcon(imgBytes);
+                    Image img = myImage.getImage();
+                    
+                    // Fallback to 130x130 if the label hasn't been rendered yet
+                    int width = (label.getWidth() > 0) ? label.getWidth() : 130;
+                    int height = (label.getHeight() > 0) ? label.getHeight() : 130;
+
+                    Image newImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                    label.setIcon(new ImageIcon(newImg));
+                    label.setText(""); 
+                } else {
+                    label.setIcon(null);
+                    label.setText("No Image");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error fetching image: " + ex.getMessage());
         }
     }
 }

@@ -19,41 +19,45 @@ public class users extends javax.swing.JFrame {
     /**
      * Creates new form users
      */
-    public users() {
-
-    // 1. Session & Admin Validation
+ public users() {
+    // 1. Security Check
     if (Config.Session.userId == 0) {
         javax.swing.JOptionPane.showMessageDialog(null, "Login Required!");
         new Main.Login().setVisible(true);
         this.dispose();
         return;
-    } else if (!Config.Session.type.equalsIgnoreCase("Admin")) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Access Denied! Admins only.");
-        // Redirect non-admins back to a safe place
-        new Admin.profile().setVisible(true); 
-        this.dispose();
-        return;
     }
 
-    // 2. Initialize UI if validation passes
+    // 2. Load UI & Data (ONLY ONCE)
     initComponents();
     displayUser();
 
+    // 3. Table Click Listener
+    usertable.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            int row = usertable.getSelectedRow();
+            if (row != -1) {
+                String id = usertable.getValueAt(row, 0).toString();
+                new config().viewImage("SELECT user_image FROM tbl_accounts WHERE a_id = '" + id + "'", image_view);
+            }
+        }
+    });
+
+    // 4. Auto-Refresh
     this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
         @Override
         public void windowGainedFocus(java.awt.event.WindowEvent e) {
             displayUser();
         }
     });
-
-    }
+}
     
-    void displayUser(){
-        config cn = new config();
-        String sql = "SELECT * FROM tbl_accounts";
-        cn.displayData(sql, usertable);
-    }
-    
+  void displayUser(){
+    config cn = new config();
+    // EXPLICITLY list columns. DO NOT use SELECT *
+    String sql = "SELECT a_id, fname, lname, email, type, status FROM tbl_accounts"; 
+    cn.displayData(sql, usertable);
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -424,29 +428,21 @@ public class users extends javax.swing.JFrame {
 
     private void UpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UpdateMouseClicked
                                                                      
-                                         
-    int row = usertable.getSelectedRow();
-    if (row == -1) {
-        JOptionPane.showMessageDialog(this, "Please select a user to update.");
-        return;
-    }
-
-    // 1. Get data from the selected row
-    // Assuming Column 0 is ID, 1 is Fname, 2 is Lname, 3 is Email, 4 is Type, 5 is Status
+   int row = usertable.getSelectedRow();
+if (row != -1) {
+    // 1. Collect data from the clicked row
     int id = Integer.parseInt(usertable.getValueAt(row, 0).toString());
     String fname = usertable.getValueAt(row, 1).toString();
     String lname = usertable.getValueAt(row, 2).toString();
     String email = usertable.getValueAt(row, 3).toString();
-    
-    // Note: Since your table probably doesn't show the password, 
-    // we pass an empty string or you'd need to fetch it from the DB.
-    String pass = ""; 
     String type = usertable.getValueAt(row, 4).toString();
 
-    // 2. Open Update frame and pass data through the constructor you created
-    Update up = new Update(id, fname, lname, email, pass, type); 
-    up.setVisible(true);
-    this.dispose(); 
+    // 2. Open the Edit/Update window and PASS the data
+    EditProfile edit = new EditProfile(id, fname, lname, email, type); 
+    edit.setVisible(true);
+} else {
+    JOptionPane.showMessageDialog(this, "Select a user first!");
+}
 
     
     }//GEN-LAST:event_UpdateMouseClicked
@@ -459,17 +455,26 @@ public class users extends javax.swing.JFrame {
 
     private void SearchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchTextKeyReleased
        
+   
     config conf = new config();
-                                                 
-        String keyword = SearchText.getText().trim();
-        String sql = "SELECT * FROM tbl_accounts WHERE fname LIKE '%" + keyword + "%' " +
-                     "OR lname LIKE '%" + keyword + "%' " +
-                     "OR email LIKE '%" + keyword + "%'";
-        conf.displayData(sql, usertable);
+    String keyword = SearchText.getText().trim();
+    // Match the columns above so the table structure stays the same
+    String sql = "SELECT a_id, fname, lname, email, type, status FROM tbl_accounts " +
+                 "WHERE fname LIKE '%" + keyword + "%' OR lname LIKE '%" + keyword + "%'";
+    conf.displayData(sql, usertable);
+
     }//GEN-LAST:event_SearchTextKeyReleased
 
     private void SearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextActionPerformed
-        // TODO add your handling code here:
+                                           
+    int row = usertable.getSelectedRow();
+    if (row != -1) {
+        String id = usertable.getValueAt(row, 0).toString();
+        Config.config conf = new Config.config();
+        String sql = "SELECT user_image FROM tbl_accounts WHERE a_id = '" + id + "'";
+        conf.viewImage(sql, image_view); 
+    }
+
     }//GEN-LAST:event_SearchTextActionPerformed
 public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -505,4 +510,5 @@ public static void main(String args[]) {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable usertable;
     // End of variables declaration//GEN-END:variables
+private javax.swing.JLabel image_view;
 }
