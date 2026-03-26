@@ -6,8 +6,8 @@
 package Main;
 
 import Admin.adminDashboard;
-import Admin.FinderDashboard;
-import Admin.LoserDashboard;
+import Admin.StudentCouncilDashboard;
+import Admin.StudentDashboard;
 import Config.config;
 import Config.Session; // Added this to handle user data
 import javax.swing.JOptionPane;
@@ -244,12 +244,15 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "LOGIN SUCCESS!");
 
                 // 4. REDIRECT BASED ON TYPE
-                if (userType.equalsIgnoreCase("Admin")) {
-                    new Admin.adminDashboard().setVisible(true);
-                } else if (userType.equalsIgnoreCase("Finder")) {
-                    new Admin.FinderDashboard().setVisible(true);
-                } else {
-                    new Admin.LoserDashboard().setVisible(true);
+              if (userType.equalsIgnoreCase("Admin")) {
+              new Admin.adminDashboard().setVisible(true);
+               } else if (userType.equalsIgnoreCase("Student Council")) {
+              new Admin.StudentCouncilDashboard().setVisible(true);
+               } else if (userType.equalsIgnoreCase("Student")) {
+              new Admin.StudentDashboard().setVisible(true);
+             } else {
+              JOptionPane.showMessageDialog(null, "Account type not recognized!");
+
                 }
 
                 this.dispose();

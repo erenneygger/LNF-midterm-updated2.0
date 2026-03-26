@@ -32,41 +32,41 @@ public class profile extends javax.swing.JFrame {
         displayData();
     }
 
-    private void displayData() {
-        config conf = new config(); 
-        String sql = "SELECT fname, lname, a_id, email, type, user_image FROM tbl_accounts WHERE a_id = " + userId;
-        
-        try {
-            ResultSet rs = conf.getData(sql);
+   private void displayData() {
+    config conf = new config(); 
+    String sql = "SELECT fname, lname, a_id, email, type, user_image FROM tbl_accounts WHERE a_id = " + userId;
+    
+    try {
+        ResultSet rs = conf.getData(sql);
 
-            if (rs != null && rs.next()) {
-                Fn.setText(rs.getString("fname"));
-                Ln.setText(rs.getString("lname"));
-                id.setText(rs.getString("a_id"));
-                Em.setText(rs.getString("email"));
-                Ut.setText(rs.getString("type"));           
-                fn.setText(rs.getString("fname"));
-                ln.setText(rs.getString("lname"));
-                
-                byte[] img = rs.getBytes("user_image"); 
-                
-                if (img != null && img.length > 0) {
-                    ImageIcon imageIcon = new ImageIcon(img);
-                    int width = lbl_img.getWidth() > 0 ? lbl_img.getWidth() : 360;
-                    int height = lbl_img.getHeight() > 0 ? lbl_img.getHeight() : 270;
-
-                    Image scaledImage = imageIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-                    lbl_img.setIcon(new ImageIcon(scaledImage));
-                    lbl_img.setText(""); 
-                } else {
-                    lbl_img.setIcon(null);
-                    lbl_img.setText("No Image Found");
-                }
+        if (rs != null && rs.next()) {
+            Fn.setText(rs.getString("fname"));
+            Ln.setText(rs.getString("lname"));
+            id.setText(rs.getString("a_id"));
+            Em.setText(rs.getString("email"));
+            Ut.setText(rs.getString("type"));           
+            fn.setText(rs.getString("fname"));
+            ln.setText(rs.getString("lname"));
+            
+            byte[] img = rs.getBytes("user_image"); 
+            
+            if (img != null && img.length > 0) {
+                ImageIcon imageIcon = new ImageIcon(img);
+                // Hardcoding 360x270 ensures it doesn't fail if the label hasn't loaded yet
+                Image scaledImage = imageIcon.getImage().getScaledInstance(360, 270, Image.SCALE_SMOOTH);
+                lbl_img.setIcon(new ImageIcon(scaledImage));
+                lbl_img.setText(""); 
+            } else {
+                lbl_img.setIcon(null);
+                lbl_img.setText("No Image Found");
             }
-        } catch (Exception e) {
-            System.out.println("Display Error: " + e.getMessage());
+            // Close the result set after use
+            rs.close();
         }
+    } catch (Exception e) {
+        System.out.println("Display Error: " + e.getMessage());
     }
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -271,33 +271,39 @@ public class profile extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BackMouseClicked
-                                      
-       String userRole = Ut.getText(); // Gets the text from the label
+                                                                                
+        String userRole = Ut.getText(); 
         
         if (userRole.equalsIgnoreCase("Admin")) {
             new adminDashboard().setVisible(true);
-        } else if (userRole.equalsIgnoreCase("Loser")) {
-            new LoserDashboard().setVisible(true);
+        } else if (userRole.equalsIgnoreCase("Student Council")) {
+            new StudentCouncilDashboard().setVisible(true);
         } else {
-            new FinderDashboard().setVisible(true);
+            // This covers "User", "Student", and anything else
+            new StudentDashboard().setVisible(true);
         }
         this.dispose();
+    
     
     }//GEN-LAST:event_BackMouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-                                     
-    //private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {                                     
-        String fname = Fn.getText();
-        String lname = Ln.getText();
-        String email = Em.getText();
-        String type = Ut.getText();
-        
-        // Pass the data to the Edit screen
-        EditProfile ep = new EditProfile(userId, fname, lname, email, type);
-        ep.setVisible(true);
-        this.dispose();
+    // 1. Get the current data from your labels/textfields
+    String fname = Fn.getText();
+    String lname = Ln.getText();
+    String email = Em.getText();
+    String type = Ut.getText();
+
+    // 2. Open EditProfile with all 6 required arguments
+    // (id, fname, lname, email, type, role)
+    // We pass 'type' twice to satisfy the new 6-argument constructor
+    EditProfile ep = new EditProfile(Config.Session.userId, fname, lname, email, type, type);
     
+    // 3. Show the new window
+    ep.setVisible(true);
+    
+    // 4. Close the current profile screen
+    this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
     public void setColor(JPanel p){
         p.setBackground(new Color(240, 240, 240));

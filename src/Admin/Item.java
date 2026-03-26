@@ -363,7 +363,7 @@ void displayUser(){
     private void HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeMouseClicked
                                         
         // Redirects back to the Loser Dashboard instead of Admin
-        LoserDashboard home = new LoserDashboard();
+        StudentDashboard home = new StudentDashboard();
         home.setVisible(true);
         this.dispose();
     

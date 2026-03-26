@@ -72,7 +72,7 @@ public class config {
         }
     }
 
-    // updateRecord: Dynamic method that handles mixed data types (including BLOB)
+    // updateRecord: Updated to handle mixed data types (including InputStream and byte[])
     public void updateRecord(String sql, Object... values) {
         try (Connection conn = connectDB(); 
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -80,6 +80,8 @@ public class config {
             for (int i = 0; i < values.length; i++) {
                 if (values[i] instanceof InputStream) {
                     pstmt.setBinaryStream(i + 1, (InputStream) values[i]);
+                } else if (values[i] instanceof byte[]) {
+                    pstmt.setBytes(i + 1, (byte[]) values[i]);
                 } else {
                     pstmt.setObject(i + 1, values[i]);
                 }
@@ -92,7 +94,7 @@ public class config {
         }
     }
 
-    // addRecord: Dynamic method for inserting records with BLOB support
+    // addRecord: Updated for inserting records with BLOB support (InputStream or byte[])
     public void addRecord(String sql, Object... values) {
         try (Connection conn = connectDB(); 
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -100,6 +102,8 @@ public class config {
             for (int i = 0; i < values.length; i++) {
                 if (values[i] instanceof InputStream) {
                     pstmt.setBinaryStream(i + 1, (InputStream) values[i]);
+                } else if (values[i] instanceof byte[]) {
+                    pstmt.setBytes(i + 1, (byte[]) values[i]);
                 } else {
                     pstmt.setObject(i + 1, values[i]);
                 }
@@ -164,10 +168,8 @@ public class config {
 
     /**
      * viewImage: Fetches image bytes from DB and fits them into a specific JLabel.
-     * Includes NullPointer protection and default sizing.
      */
     public void viewImage(String sql, JLabel label) {
-        // SAFETY CHECK: If the label doesn't exist yet, don't crash the app
         if (label == null) {
             System.out.println("Config Error: Target JLabel is null. Image cannot be displayed.");
             return;
@@ -183,7 +185,6 @@ public class config {
                     ImageIcon myImage = new ImageIcon(imgBytes);
                     Image img = myImage.getImage();
                     
-                    // Fallback to 130x130 if the label hasn't been rendered yet
                     int width = (label.getWidth() > 0) ? label.getWidth() : 130;
                     int height = (label.getHeight() > 0) ? label.getHeight() : 130;
 

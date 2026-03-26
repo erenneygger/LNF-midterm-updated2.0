@@ -428,7 +428,7 @@ public class users extends javax.swing.JFrame {
 
     private void UpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UpdateMouseClicked
                                                                      
-   int row = usertable.getSelectedRow();
+  int row = usertable.getSelectedRow();
 if (row != -1) {
     // 1. Collect data from the clicked row
     int id = Integer.parseInt(usertable.getValueAt(row, 0).toString());
@@ -438,12 +438,14 @@ if (row != -1) {
     String type = usertable.getValueAt(row, 4).toString();
 
     // 2. Open the Edit/Update window and PASS the data
-    EditProfile edit = new EditProfile(id, fname, lname, email, type); 
+    // FIX: Added 'type' as the 6th argument so the EditProfile knows the role
+    EditProfile edit = new EditProfile(id, fname, lname, email, type, type); 
+    
     edit.setVisible(true);
+    this.dispose(); // Closes the users list so you don't have multiple windows
 } else {
     JOptionPane.showMessageDialog(this, "Select a user first!");
 }
-
     
     }//GEN-LAST:event_UpdateMouseClicked
 

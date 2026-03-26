@@ -251,11 +251,18 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_passActionPerformed
 
     private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
-        config con = new config();
-        
-        String sql = "INSERT INTO tbl_accounts (fname, lname, email, type, pass, confpass, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        con.addRecord(sql, firstname.getText(), lastname.getText(), email.getText(), type.getText(), pass.getText(), confpass.getText(), "Pending");
-        JOptionPane.showMessageDialog(null, "RECORD ADDED!");
+       String userType = type.getText().trim();
+
+// Validation to ensure they use the new role names
+if (!userType.equalsIgnoreCase("Student Council") && !userType.equalsIgnoreCase("Student")) {
+    JOptionPane.showMessageDialog(null, "Invalid Role! Use 'Student Council' or 'Student'.");
+    return;
+}
+
+config con = new config();
+String sql = "INSERT INTO tbl_accounts (fname, lname, email, type, pass, status) VALUES (?, ?, ?, ?, ?, ?)";
+// Note: Only 6 '?' parameters to match your database columns
+con.addRecord(sql, firstname.getText(), lastname.getText(), email.getText(), userType, pass.getText(), "Pending");
     }//GEN-LAST:event_jLabel14MouseClicked
 
     private void loginbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginbtnMouseClicked

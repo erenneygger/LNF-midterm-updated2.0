@@ -308,9 +308,12 @@ public class adminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ProfileMouseEntered
 
     private void ProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProfileMouseClicked
-        profile prof = new profile(Session.userId);
-        prof.setVisible(true);
-        dispose();
+        // 1. Open the profile window and pass the logged-in User's ID
+    profile prof = new profile(Config.Session.userId);
+    prof.setVisible(true);
+    
+    // 2. Close the current Admin Dashboard
+    this.dispose();
     }//GEN-LAST:event_ProfileMouseClicked
 
     private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
