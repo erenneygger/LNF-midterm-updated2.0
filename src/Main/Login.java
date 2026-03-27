@@ -22,6 +22,8 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        // ADD THIS LINE HERE:
+        new Config.config().initializeLogs();
     }
 
     /**
@@ -201,74 +203,78 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_registerbtnMouseClicked
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-                                                                                                               
-        String email = Email.getText();
-        String password = new String(Pass.getPassword()); // Use getPassword() for JPasswordField
+                                                                                                                                                    
+    String email = Email.getText();
+    String password = new String(Pass.getPassword());
 
-        if (email.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please fill in all fields!");
+    if (email.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Please fill in all fields!");
+        return;
+    }
+
+    String sql = "SELECT a_id, status, type, fname FROM tbl_accounts WHERE email = ? AND pass = ?";
+    
+    // Create these variables outside the try block so we can use them after it closes
+    int userId = -1;
+    String status = "";
+    String userType = "";
+    String name = "";
+    boolean loginSuccess = false;
+
+    // --- STEP 1: CHECK LOGIN (This block opens and then CLOSES the connection) ---
+    try (java.sql.Connection conn = Config.config.connectDB();
+         java.sql.PreparedStatement pst = conn.prepareStatement(sql)) {
+        
+        pst.setString(1, email);
+        pst.setString(2, password);
+        java.sql.ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            userId = rs.getInt("a_id");
+            status = rs.getString("status");
+            userType = rs.getString("type");
+            name = rs.getString("fname");
+            loginSuccess = true;
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage());
+        return; 
+    }
+
+    // --- STEP 2: ACT ON THE RESULTS (Database is now unlocked and free) ---
+    if (loginSuccess) {
+        if (status != null && !status.equalsIgnoreCase("Active")) {
+            JOptionPane.showMessageDialog(null, "Your account is inactive. Contact Admin.");
             return;
         }
 
-        // SQL Query - we fetch everything we need at once
-        String sql = "SELECT a_id, status, type, fname FROM tbl_accounts WHERE email = ? AND pass = ?";
+        // Save to Session
+        Config.Session.userId = userId;
+        Config.Session.name = name;
+        Config.Session.type = userType;
 
-        try (
-            java.sql.Connection conn = Config.config.connectDB();
-            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-        ) {
-            pst.setString(1, email);
-            pst.setString(2, password);
+        JOptionPane.showMessageDialog(null, "LOGIN SUCCESS!");
 
-            java.sql.ResultSet rs = pst.executeQuery();
+        // RECORD LOG (This will now work because the login connection above is closed!)
+        config conf = new config();
+        conf.recordLog(name, "Login", "User Logged In Successfully");
 
-            if (rs.next()) {
-                // 1. EXTRACT DATA FROM DATABASE
-                int userId = rs.getInt("a_id");
-                String status = rs.getString("status");
-                String userType = rs.getString("type");
-                String name = rs.getString("fname");
-
-                // 2. CHECK ACCOUNT STATUS FIRST
-                if (status != null && !status.equalsIgnoreCase("Active")) {
-                    JOptionPane.showMessageDialog(null, "Your account is inactive. Contact Admin.");
-                    return;
-                }
-
-                // 3. SAVE TO SESSION (This fixes your errors in other pages!)
-                Config.Session.userId = userId;
-                Config.Session.name = name;
-                Config.Session.type = userType;
-
-                JOptionPane.showMessageDialog(null, "LOGIN SUCCESS!");
-
-                // --- NEW LOGGING FUNCTION ADDED HERE ---
-                new Config.config().recordLog(name, "LOGIN", "User logged into the system successfully.");
-                // ---------------------------------------
-
-                // 4. REDIRECT BASED ON TYPE
-                if (userType.equalsIgnoreCase("Admin")) {
-                    new Admin.adminDashboard().setVisible(true);
-                } else if (userType.equalsIgnoreCase("Student Council")) {
-                    new Admin.StudentCouncilDashboard().setVisible(true);
-                } else if (userType.equalsIgnoreCase("Student")) {
-                    new Admin.StudentDashboard().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Account type not recognized!");
-                }
-
-                this.dispose();
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Invalid email or password!");
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Login Error: " + e.getMessage());
+        // REDIRECT
+        if (userType.equalsIgnoreCase("Admin")) {
+            new Admin.adminDashboard().setVisible(true);
+        } else if (userType.equalsIgnoreCase("Student Council")) {
+            new Admin.StudentCouncilDashboard().setVisible(true);
+        } else if (userType.equalsIgnoreCase("Student")) {
+            new Admin.StudentDashboard().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Account type not recognized!");
         }
-    
-    
+        this.dispose();
 
+    } else {
+        JOptionPane.showMessageDialog(null, "Invalid email or password!");
+    }
+   
     }//GEN-LAST:event_jPanel4MouseClicked
 
     /**

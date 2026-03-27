@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.io.InputStream;
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
@@ -16,6 +17,37 @@ import javax.swing.JLabel;
 public class config {
 
     public static int userId; 
+
+    /**
+     * CONSTRUCTOR: Now empty to prevent "SQLITE_BUSY" errors and 
+     * repeating console messages when switching frames.
+     */
+    public config() {
+        // Keep this empty to stop the repeating messages
+    }
+
+    /**
+     * initializeLogs: Run this ONLY ONCE in your Login constructor.
+     * It ensures the log table exists without locking the database constantly.
+     */
+    public void initializeLogs() {
+        try (Connection conn = connectDB();
+             Statement stmt = conn.createStatement()) {
+            
+            String sql = "CREATE TABLE IF NOT EXISTS tbl_logs ("
+                       + "log_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                       + "user_name TEXT, "
+                       + "action TEXT, "
+                       + "details TEXT, "
+                       + "log_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)";
+            
+            stmt.execute(sql);
+            System.out.println(">>> Log System Verified and Ready.");
+            
+        } catch (SQLException ex) {
+            System.out.println("Initialization Error: " + ex.getMessage());
+        }
+    }
 
     // Helper Method for manual connection handling
     public Connection getConnection() {
@@ -45,14 +77,26 @@ public class config {
         }
     }
 
-    // getData: Standard retrieval (Caller must handle connection closing)
-    public ResultSet getData(String sql) throws SQLException {
-        Connection conn = connectDB();
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        return pstmt.executeQuery();
+    /**
+     * FIXED getData: Uses CachedRowSet to copy data into memory 
+     * and IMMEDIATELY close the database connection to prevent SQLITE_BUSY.
+     */
+    public ResultSet getData(String sql) {
+        try (Connection conn = connectDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            
+            CachedRowSet crs = RowSetProvider.newFactory().createCachedRowSet();
+            crs.populate(rs);
+            return crs; 
+            
+        } catch (SQLException e) {
+            System.out.println("Error in getData: " + e.getMessage());
+            return null;
+        }
     }
 
-    // safeGetData: Uses CachedRowSet to allow closing connection immediately
+    // safeGetData: Uses CachedRowSet to allow closing connection immediately with parameters
     public ResultSet safeGetData(String sql, Object... values) {
         try (Connection conn = connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -94,7 +138,7 @@ public class config {
         }
     }
 
-    // addRecord: Updated for inserting records with BLOB support (InputStream or byte[])
+    // addRecord: Updated for inserting records with BLOB support
     public void addRecord(String sql, Object... values) {
         try (Connection conn = connectDB(); 
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -167,15 +211,11 @@ public class config {
     }
 
     /**
-     * recordLog: New method to record system activities into tbl_logs
+     * recordLog: Method to record system activities into tbl_logs
      */
     public void recordLog(String username, String action, String details) {
         String sql = "INSERT INTO tbl_logs (user_name, action, details) VALUES (?, ?, ?)";
-        try {
-            addRecord(sql, username, action, details);
-        } catch (Exception e) {
-            System.out.println("Log Error: " + e.getMessage());
-        }
+        addRecord(sql, username, action, details);
     }
 
     /**

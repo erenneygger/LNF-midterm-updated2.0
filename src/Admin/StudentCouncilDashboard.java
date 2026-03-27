@@ -83,6 +83,9 @@ public class StudentCouncilDashboard extends javax.swing.JFrame {
         setting.setBackground(new java.awt.Color(102, 102, 102));
         setting.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setting.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                settingMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 settingMouseEntered(evt);
             }
@@ -93,7 +96,7 @@ public class StudentCouncilDashboard extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Setting");
+        jLabel7.setText("Reports");
 
         javax.swing.GroupLayout settingLayout = new javax.swing.GroupLayout(setting);
         setting.setLayout(settingLayout);
@@ -392,6 +395,20 @@ public class StudentCouncilDashboard extends javax.swing.JFrame {
     }
 
     }//GEN-LAST:event_logoutBtnMouseClicked
+
+    private void settingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingMouseClicked
+                                         
+    // 1. Create an instance of your Reports frame
+    // Note: If your class is named 'report' (lowercase), use 'report' instead of 'Reports'
+   report reportsFrame = new report(); 
+    
+    // 2. Make the Reports window visible
+    reportsFrame.setVisible(true);
+    
+    // 3. Close the current Student Council Dashboard
+    this.dispose();
+
+    }//GEN-LAST:event_settingMouseClicked
     public void setColor(JPanel p){
         p.setBackground(new Color(240, 240, 240));
     }
