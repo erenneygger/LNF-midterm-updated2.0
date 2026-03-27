@@ -201,8 +201,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_registerbtnMouseClicked
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-                                     
-                                      
+                                                                                                               
         String email = Email.getText();
         String password = new String(Pass.getPassword()); // Use getPassword() for JPasswordField
 
@@ -243,16 +242,19 @@ public class Login extends javax.swing.JFrame {
 
                 JOptionPane.showMessageDialog(null, "LOGIN SUCCESS!");
 
-                // 4. REDIRECT BASED ON TYPE
-              if (userType.equalsIgnoreCase("Admin")) {
-              new Admin.adminDashboard().setVisible(true);
-               } else if (userType.equalsIgnoreCase("Student Council")) {
-              new Admin.StudentCouncilDashboard().setVisible(true);
-               } else if (userType.equalsIgnoreCase("Student")) {
-              new Admin.StudentDashboard().setVisible(true);
-             } else {
-              JOptionPane.showMessageDialog(null, "Account type not recognized!");
+                // --- NEW LOGGING FUNCTION ADDED HERE ---
+                new Config.config().recordLog(name, "LOGIN", "User logged into the system successfully.");
+                // ---------------------------------------
 
+                // 4. REDIRECT BASED ON TYPE
+                if (userType.equalsIgnoreCase("Admin")) {
+                    new Admin.adminDashboard().setVisible(true);
+                } else if (userType.equalsIgnoreCase("Student Council")) {
+                    new Admin.StudentCouncilDashboard().setVisible(true);
+                } else if (userType.equalsIgnoreCase("Student")) {
+                    new Admin.StudentDashboard().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Account type not recognized!");
                 }
 
                 this.dispose();
@@ -264,6 +266,7 @@ public class Login extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Login Error: " + e.getMessage());
         }
+    
     
 
     }//GEN-LAST:event_jPanel4MouseClicked

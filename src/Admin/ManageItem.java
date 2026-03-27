@@ -221,6 +221,11 @@ void displayUser(){
         jLabel7.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Reports");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout ReportsLayout = new javax.swing.GroupLayout(Reports);
         Reports.setLayout(ReportsLayout);
@@ -418,6 +423,8 @@ void displayUser(){
     adminDashboard ds = new adminDashboard();
     ds.setVisible(true);
     this.dispose();
+    
+    
 
     }//GEN-LAST:event_HomeMouseClicked
 
@@ -544,6 +551,16 @@ void displayUser(){
         displayUser();
     }
     }//GEN-LAST:event_deleteMouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+                                    
+    // This opens your Reports/Logs page
+    // Make sure your class name is 'report' or 'Reports' (check your project tree)
+    report rp = new report(); 
+    rp.setVisible(true);
+    this.dispose(); 
+       // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel7MouseClicked
 public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

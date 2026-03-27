@@ -167,6 +167,18 @@ public class config {
     }
 
     /**
+     * recordLog: New method to record system activities into tbl_logs
+     */
+    public void recordLog(String username, String action, String details) {
+        String sql = "INSERT INTO tbl_logs (user_name, action, details) VALUES (?, ?, ?)";
+        try {
+            addRecord(sql, username, action, details);
+        } catch (Exception e) {
+            System.out.println("Log Error: " + e.getMessage());
+        }
+    }
+
+    /**
      * viewImage: Fetches image bytes from DB and fits them into a specific JLabel.
      */
     public void viewImage(String sql, JLabel label) {

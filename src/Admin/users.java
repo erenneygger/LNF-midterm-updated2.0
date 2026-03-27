@@ -405,7 +405,8 @@ public class users extends javax.swing.JFrame {
     }//GEN-LAST:event_AddMouseClicked
 
     private void DeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteMouseClicked
-                                  
+                                        
+                                      
     int row = usertable.getSelectedRow();
     if (row == -1) {
         JOptionPane.showMessageDialog(this, "Please select a user to delete!");
@@ -414,38 +415,48 @@ public class users extends javax.swing.JFrame {
 
     int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this user?", "Confirm", JOptionPane.YES_NO_OPTION);
     if (confirm == JOptionPane.YES_OPTION) {
-        // Get the ID from the first column
+        // Get the ID and Name for the log
         int id = Integer.parseInt(usertable.getValueAt(row, 0).toString());
+        String targetName = usertable.getValueAt(row, 1).toString() + " " + usertable.getValueAt(row, 2).toString();
+        
         config con = new config();
         
-        // This will now work without errors!
+        // Execute Delete
         con.deleteData(id, "tbl_accounts", "a_id"); 
+        
+        // --- NEW LOGGING FUNCTION ---
+        new config().recordLog(Config.Session.name, "DELETE USER", "Deleted account: " + targetName + " (ID: " + id + ")");
+        // ----------------------------
         
         displayUser(); // Refresh the table
     }
-
+    
     }//GEN-LAST:event_DeleteMouseClicked
 
     private void UpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UpdateMouseClicked
-                                                                     
-  int row = usertable.getSelectedRow();
-if (row != -1) {
-    // 1. Collect data from the clicked row
-    int id = Integer.parseInt(usertable.getValueAt(row, 0).toString());
-    String fname = usertable.getValueAt(row, 1).toString();
-    String lname = usertable.getValueAt(row, 2).toString();
-    String email = usertable.getValueAt(row, 3).toString();
-    String type = usertable.getValueAt(row, 4).toString();
+                                                                                                                                                                               
+    int row = usertable.getSelectedRow();
+    if (row != -1) {
+        // 1. Collect data from the clicked row
+        int id = Integer.parseInt(usertable.getValueAt(row, 0).toString());
+        String fname = usertable.getValueAt(row, 1).toString();
+        String lname = usertable.getValueAt(row, 2).toString();
+        String email = usertable.getValueAt(row, 3).toString();
+        String type = usertable.getValueAt(row, 4).toString();
 
-    // 2. Open the Edit/Update window and PASS the data
-    // FIX: Added 'type' as the 6th argument so the EditProfile knows the role
-    EditProfile edit = new EditProfile(id, fname, lname, email, type, type); 
+        // --- NEW LOGGING FUNCTION ---
+        new config().recordLog(Config.Session.name, "EDIT ATTEMPT", "Opened edit profile for: " + fname + " " + lname);
+        // ----------------------------
+
+        // 2. Open the Edit/Update window and PASS the data
+        EditProfile edit = new EditProfile(id, fname, lname, email, type, type); 
+        
+        edit.setVisible(true);
+        this.dispose(); 
+    } else {
+        JOptionPane.showMessageDialog(this, "Select a user first!");
+    }
     
-    edit.setVisible(true);
-    this.dispose(); // Closes the users list so you don't have multiple windows
-} else {
-    JOptionPane.showMessageDialog(this, "Select a user first!");
-}
     
     }//GEN-LAST:event_UpdateMouseClicked
 

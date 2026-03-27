@@ -19,7 +19,7 @@ public class report extends javax.swing.JFrame {
     /**
      * Creates new form users
      */
-   public report() {       
+  public report() {       
     if (Config.Session.userId == 0) {
         javax.swing.JOptionPane.showMessageDialog(null, "Login Required!");
         new Main.Login().setVisible(true);
@@ -28,27 +28,26 @@ public class report extends javax.swing.JFrame {
     }
 
     initComponents();
-    displayUser(); // Load data when window opens
+    displayUser(); // This loads the data immediately
     
-    // --- ADD THIS PART BELOW ---
-    // This refreshes the table every time you click back onto the Item window
+    // This part is great for refreshing when you return to this window
     this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
         @Override
         public void windowGainedFocus(java.awt.event.WindowEvent e) {
-            displayUser();
+            displayUser(); 
         }
     });
 }
     
-void displayUser(){
-       
-  
+void displayUser() {
     config cn = new config();
-    // This query pulls the data from your database
-    String sql = "SELECT item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items";
+    // This query matches the 5 columns you set up in your JTable (ID, Name, Reporter, Status, Date)
+    String sql = "SELECT item_id, item_name, reported_by, item_status, item_time FROM tbl_items ORDER BY item_id DESC";
+    
+    // usertable is the variable name of your JTable in this file
     cn.displayData(sql, usertable);
-}
 
+}
     
     
     /**
@@ -78,8 +77,6 @@ void displayUser(){
         jPanel6 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         SearchText = new javax.swing.JTextField();
-        Add = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,7 +90,7 @@ void displayUser(){
 
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ITEMS");
+        jLabel1.setText("REPORT LOGS");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(396, 13, -1, 104));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test1.png"))); // NOI18N
@@ -239,11 +236,11 @@ void displayUser(){
 
             },
             new String [] {
-                "ID", "item ", "Full Name", "Last Name", "Time & Date", "Location", "Type", "Status"
+                "ID", "item Name", "Reporter", "Status", "Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -282,22 +279,6 @@ void displayUser(){
             }
         });
         jPanel1.add(SearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 210, 310, 40));
-
-        Add.setBackground(new java.awt.Color(102, 102, 102));
-        Add.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Add.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                AddMouseClicked(evt);
-            }
-        });
-        Add.setLayout(null);
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel14.setText("Add");
-        Add.add(jLabel14);
-        jLabel14.setBounds(80, 10, 120, 30);
-
-        jPanel1.add(Add, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 200, 220, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -362,41 +343,63 @@ void displayUser(){
 
     private void HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeMouseClicked
                                         
-        // Redirects back to the Loser Dashboard instead of Admin
-        StudentDashboard home = new StudentDashboard();
-        home.setVisible(true);
-        this.dispose();
-    
+                                         
+    // Change this to your Admin Dashboard if this is an Admin tool
+    adminDashboard admin = new adminDashboard();
+    admin.setVisible(true);
+    this.dispose();
+
     }//GEN-LAST:event_HomeMouseClicked
 
-    private void AddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddMouseClicked
-                                     
-    // This opens your data entry form
-    additemLF add = new additemLF();
-    add.setVisible(true);
-    // We do NOT use this.dispose() here so that Item.java stays open in the background
-
-    }//GEN-LAST:event_AddMouseClicked
-
     private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
-                                            
-        displayUser(); // This refreshes the table with the new items list
-     
+                                       
+    /* * This method handles the printing of the JTable.
+     * It adds a professional Header and Page Number Footer.
+     */
+    try {
+        // Define a Header (Top of the page)
+        java.text.MessageFormat header = new java.text.MessageFormat("Lost and Found Item Report");
+        
+        // Define a Footer (Bottom of the page with page numbering)
+        java.text.MessageFormat footer = new java.text.MessageFormat("Page {0,number,integer}");
+
+        // Execute the print command with the header and footer
+        // JTable.PrintMode.FIT_WIDTH ensures the 5 columns fit on one paper width
+        boolean complete = usertable.print(javax.swing.JTable.PrintMode.FIT_WIDTH, header, footer);
+
+        if (complete) {
+            JOptionPane.showMessageDialog(null, "Printing Complete", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // This triggers if the user clicks "Cancel" in the print dialog
+            System.out.println("Printing Cancelled");
+        }
+        
+    } catch (java.awt.print.PrinterException e) {
+        JOptionPane.showMessageDialog(null, "Printer Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + e.getMessage());
+    }
+
+    // Refresh the table data from tbl_items after the print dialog closes
+    displayUser(); 
 
     }//GEN-LAST:event_jPanel6MouseClicked
 
     private void SearchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchTextKeyReleased
-       
-                                       
-        config conf = new config();
-        String keyword = SearchText.getText().trim();
-        // Updated search to look through Item Name, Location, and Status
-        String sql = "SELECT item item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items " +
-                     "WHERE item_name LIKE '%" + keyword + "%' " +
-                     "OR item_location LIKE '%" + keyword + "%' " +
-                     "OR item_status LIKE '%" + keyword + "%'";
-        conf.displayData(sql, usertable);
+                                           
+    config conf = new config();
+    String keyword = SearchText.getText().trim();
     
+    // Search tbl_items instead of tbl_logs so it matches your JTable columns
+    String sql = "SELECT item_id, item_name, reported_by, item_status, item_time "
+               + "FROM tbl_items "
+               + "WHERE item_name LIKE '%" + keyword + "%' "
+               + "OR reported_by LIKE '%" + keyword + "%' "
+               + "OR item_status LIKE '%" + keyword + "%' "
+               + "ORDER BY item_id DESC";
+               
+    conf.displayData(sql, usertable);
+
     }//GEN-LAST:event_SearchTextKeyReleased
 
     private void SearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextActionPerformed
@@ -411,7 +414,6 @@ public static void main(String args[]) {
     }
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Add;
     private javax.swing.JPanel Home;
     private javax.swing.JPanel Reports;
     private javax.swing.JTextField SearchText;
@@ -419,7 +421,6 @@ public static void main(String args[]) {
     private javax.swing.JPanel Users;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
