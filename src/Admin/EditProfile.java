@@ -448,17 +448,22 @@ public class EditProfile extends javax.swing.JFrame {
             );
         }
 
+        // --- PASTE THE NEW LOGIC HERE ---
         JOptionPane.showMessageDialog(null, "Profile Updated Successfully!");
 
-        // 2. Redirection logic based on the role passed to the constructor
-        if (userRole != null && userRole.equalsIgnoreCase("Admin")) {
-            new adminDashboard().setVisible(true);
-        } else {
+        String currentSessionRole = Config.Session.type; 
+
+        if (currentSessionRole != null && currentSessionRole.equalsIgnoreCase("Admin")) {
+            new Admin.users().setVisible(true); 
+        } else if (currentSessionRole != null && currentSessionRole.equalsIgnoreCase("Student Council")) {
             new StudentCouncilDashboard().setVisible(true);
+        } else {
+            new StudentDashboard().setVisible(true);
         }
 
-        this.dispose(); // Close EditProfile
-        
+        this.dispose(); 
+        // --- END OF NEW LOGIC ---
+
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Update Error: " + e.getMessage());
     }

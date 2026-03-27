@@ -148,7 +148,7 @@ public class StudentCouncilDashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel1.add(Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 250, -1));
+        jPanel1.add(Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 250, 90));
 
         item.setBackground(new java.awt.Color(102, 102, 102));
         item.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -180,11 +180,12 @@ public class StudentCouncilDashboard extends javax.swing.JFrame {
         itemLayout.setVerticalGroup(
             itemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(itemLayout.createSequentialGroup()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.add(item, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 250, 90));
+        jPanel1.add(item, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 250, 90));
 
         Home.setBackground(new java.awt.Color(102, 102, 102));
         Home.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -212,10 +213,10 @@ public class StudentCouncilDashboard extends javax.swing.JFrame {
         );
         HomeLayout.setVerticalGroup(
             HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
         );
 
-        jPanel1.add(Home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 250, 80));
+        jPanel1.add(Home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 250, 90));
 
         jPanel3.setBackground(new java.awt.Color(51, 51, 51));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -278,7 +279,7 @@ public class StudentCouncilDashboard extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel1.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, -1, 80));
+        jPanel1.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

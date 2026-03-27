@@ -93,7 +93,7 @@ void displayUser(){
 
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("USERS");
+        jLabel1.setText("ITEMS");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(396, 13, -1, 104));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test1.png"))); // NOI18N
