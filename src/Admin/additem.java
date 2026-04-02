@@ -7,9 +7,15 @@ package Admin;
 
 import Config.config;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
  * @author Dell
@@ -20,6 +26,8 @@ public class additem extends javax.swing.JFrame {
 
     // PLACE IT HERE (Right at the top, before the constructor)
     public int itemId = 0; 
+    public String imagePath;
+    public byte[] itemImageData;
 
    
     public additem() {      
@@ -42,20 +50,23 @@ public class additem extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        image_display = new javax.swing.JLabel();
         firstname = new javax.swing.JTextField();
         lastname = new javax.swing.JTextField();
         place = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        addU = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
         Item = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         Type = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         timedate = new javax.swing.JTextField();
+        BrowsePic = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        addU2 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,6 +94,9 @@ public class additem extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        image_display.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel4.add(image_display, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 230, 200, 120));
         jPanel4.add(firstname, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, 240, 40));
         jPanel4.add(lastname, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 30, 240, 40));
 
@@ -104,33 +118,6 @@ public class additem extends javax.swing.JFrame {
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel19.setText("User type:");
         jPanel4.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, -1, -1));
-
-        addU.setBackground(new java.awt.Color(102, 102, 102));
-        addU.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        addU.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addUMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                addUMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                addUMouseExited(evt);
-            }
-        });
-        addU.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel11.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("SAVE ITEM");
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
-            }
-        });
-        addU.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, -1));
-
-        jPanel4.add(addU, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, 240, 50));
 
         Item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,6 +152,60 @@ public class additem extends javax.swing.JFrame {
         });
         jPanel4.add(timedate, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 240, 40));
 
+        BrowsePic.setBackground(new java.awt.Color(102, 102, 102));
+        BrowsePic.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BrowsePic.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BrowsePicMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                BrowsePicMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                BrowsePicMouseExited(evt);
+            }
+        });
+        BrowsePic.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("BROWSE");
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+        });
+        BrowsePic.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 140, -1));
+
+        jPanel4.add(BrowsePic, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, 240, 50));
+
+        addU2.setBackground(new java.awt.Color(102, 102, 102));
+        addU2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        addU2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addU2MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                addU2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                addU2MouseExited(evt);
+            }
+        });
+        addU2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel13.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("SAVE ITEM");
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
+        addU2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, -1));
+
+        jPanel4.add(addU2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 240, 50));
+
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 920, 370));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -192,59 +233,6 @@ public class additem extends javax.swing.JFrame {
         p2.setBackground(new Color(102, 102, 102));
     }
     
-    private void addUMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addUMouseEntered
-        setColor(addU);
-    }//GEN-LAST:event_addUMouseEntered
-
-    private void addUMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addUMouseExited
-        resetColor(addU);
-    }//GEN-LAST:event_addUMouseExited
-
-    private void addUMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addUMouseClicked
-                                  
-                                    
-                                           
-                                 
-    config conf = new config();
-    
-    if (Item.getText().isEmpty() || timedate.getText().isEmpty() || place.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Please fill in the Item Name, Time, and Location!");
-    } else {
-        String fullName = firstname.getText() + " " + (lastname.getText().isEmpty() ? "" : lastname.getText());
-        
-        if (jLabel11.getText().equals("UPDATE")) {
-            // SQL for Updating
-            String sql = "UPDATE tbl_items SET item_name = ?, item_time = ?, item_location = ?, "
-                       + "item_type = ?, reported_by = ? WHERE item_id = ?";
-            
-            conf.updateRecord(sql, Item.getText(), timedate.getText(), place.getText(), Type.getText(), fullName, String.valueOf(itemId));
-            JOptionPane.showMessageDialog(null, "Item Updated Successfully!");
-            
-        } else { 
-            // SQL for New Entry
-            String sql = "INSERT INTO tbl_items (item_name, item_time, item_location, item_type, reported_by, item_status) "
-                       + "VALUES (?, ?, ?, ?, ?, ?)";
-            
-            conf.addRecord(sql, Item.getText(), timedate.getText(), place.getText(), Type.getText(), fullName, "Pending");
-            JOptionPane.showMessageDialog(null, "Item Successfully Registered!");
-        }
-
-        // Return to the list
-        new ManageItem().setVisible(true);
-        this.dispose();
-    }
-
-
-    
-
-    }//GEN-LAST:event_addUMouseClicked
-
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-                                           
-    addUMouseClicked(evt); // This tells the label to do whatever the panel does
-
-    }//GEN-LAST:event_jLabel11MouseClicked
-
     private void placeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_placeActionPerformed
@@ -268,6 +256,122 @@ public class additem extends javax.swing.JFrame {
     private void ItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ItemActionPerformed
+
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel12MouseClicked
+
+    private void BrowsePicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BrowsePicMouseClicked
+                                       
+                                          
+    JFileChooser browse = new JFileChooser();
+    
+    // Filter to show only images
+    FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
+    browse.setFileFilter(fnef);
+    
+    int showOpenDialogue = browse.showOpenDialog(null);
+
+    if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
+        File selectedImageFile = browse.getSelectedFile();
+        imagePath = selectedImageFile.getAbsolutePath(); // String variable at the top of your class
+        
+        // 1. Display the image in your JLabel preview using your Config helper
+        config conf = new config();
+        image_display.setIcon(conf.ResizeImage(imagePath, null, image_display));
+        image_display.setText(""); // Remove the "ADD" or "UPDATE" text from label
+        
+        // 2. Optional: Convert to byte array if your DB uses BLOB
+        try {
+            File image = new File(imagePath);
+            FileInputStream fis = new FileInputStream(image);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                bos.write(buf, 0, readNum);
+            }
+            itemImageData = bos.toByteArray(); 
+        } catch (Exception e) {
+            System.out.println("Image Error: " + e.getMessage());
+        }
+    }
+
+
+    }//GEN-LAST:event_BrowsePicMouseClicked
+
+    private void BrowsePicMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BrowsePicMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BrowsePicMouseEntered
+
+    private void BrowsePicMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BrowsePicMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BrowsePicMouseExited
+
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel13MouseClicked
+
+    private void addU2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addU2MouseClicked
+                                       
+    config conf = new config();
+    
+    // 1. Validation: Ensure image and essential fields are present
+    if (itemImageData == null) {
+        JOptionPane.showMessageDialog(null, "Please select an image first!");
+        return;
+    }
+    
+    if (firstname.getText().trim().isEmpty() || Item.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Please fill in the required fields!");
+        return;
+    }
+
+    // 2. Prepare Data
+    String fullName = firstname.getText() + " " + lastname.getText();
+    String status = "Pending"; // Default status for new items
+
+    // 3. Save Logic (Handles both INSERT and UPDATE)
+    if (itemId == 0) { // If itemId is 0, we are adding a new record
+        String sql = "INSERT INTO tbl_items (item_name, item_time, item_location, item_type, reported_by, item_status, item_image) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
+        conf.addRecord(sql, Item.getText(), timedate.getText(), place.getText(), 
+                       Type.getText(), fullName, status, itemImageData);
+        
+        JOptionPane.showMessageDialog(null, "Successfully Added!");
+    } else { // If itemId is NOT 0, we are updating an existing record
+        String sql = "UPDATE tbl_items SET item_name = ?, item_time = ?, item_location = ?, "
+                   + "item_type = ?, reported_by = ?, item_image = ? WHERE item_id = ?";
+        
+        // Pass the itemId as the last parameter for the WHERE clause
+        conf.updateRecord(sql, Item.getText(), timedate.getText(), place.getText(), 
+                          Type.getText(), fullName, itemImageData, String.valueOf(itemId));
+        
+        JOptionPane.showMessageDialog(null, "Successfully Updated!");
+    }
+
+    // 4. SMART REDIRECT: Use the session to decide the next page
+    String userRole = Config.Session.type; 
+
+    if (userRole != null && userRole.equalsIgnoreCase("Admin")) {
+        new Admin.ManageItem().setVisible(true);
+    } else {
+        // Redirect to standard view if not Admin
+        new Admin.ManageItem().setVisible(true); 
+    }
+
+    this.dispose();
+
+
+    }//GEN-LAST:event_addU2MouseClicked
+
+    private void addU2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addU2MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addU2MouseEntered
+
+    private void addU2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addU2MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addU2MouseExited
 
     /**
      * @param args the command line arguments
@@ -312,12 +416,15 @@ public class additem extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel BrowsePic;
     public javax.swing.JTextField Item;
     public javax.swing.JTextField Type;
-    private javax.swing.JPanel addU;
+    private javax.swing.JPanel addU2;
     public javax.swing.JTextField firstname;
+    public javax.swing.JLabel image_display;
     private javax.swing.JLabel jLabel1;
-    public javax.swing.JLabel jLabel11;
+    public javax.swing.JLabel jLabel12;
+    public javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;

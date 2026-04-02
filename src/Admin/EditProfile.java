@@ -447,21 +447,15 @@ public class EditProfile extends javax.swing.JFrame {
             );
         }
 
-        // --- PASTE THE NEW LOGIC HERE ---
+       // --- UPDATED LOGIC ---
         JOptionPane.showMessageDialog(null, "Profile Updated Successfully!");
 
-        String currentSessionRole = Config.Session.type; 
-
-        if (currentSessionRole != null && currentSessionRole.equalsIgnoreCase("Admin")) {
-            new Admin.users().setVisible(true); 
-        } else if (currentSessionRole != null && currentSessionRole.equalsIgnoreCase("Student Council")) {
-            new StudentCouncilDashboard().setVisible(true);
-        } else {
-            new StudentDashboard().setVisible(true);
-        }
+        // Instead of going to dashboards, go back to the Profile frame 
+        // using the userId of the account that was just edited.
+        new profile(userId).setVisible(true);
 
         this.dispose(); 
-        // --- END OF NEW LOGIC ---
+        // --- END OF UPDATED LOGIC ---
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Update Error: " + e.getMessage());

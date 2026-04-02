@@ -6,9 +6,14 @@
 package Admin;
 
 import Config.config;
+import java.awt.Component;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.Color;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane; // <--- ADD THIS
+import javax.swing.JPanel;      // <--- ADD THIS
 
 /**
  *
@@ -41,12 +46,12 @@ public class Item extends javax.swing.JFrame {
 }
     
 void displayUser(){
-       
-  
-    config cn = new config();
-    // This query pulls the data from your database
-    String sql = "SELECT item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items";
+    Config.config cn = new Config.config(); 
+    // This order matches your JTable: ID, item (image), Full Name, Last Name...
+    // Adjust the field names to match your actual database columns
+    String sql = "SELECT item_id, item_image, item_name, reported_by, item_time, item_location, item_type, item_status FROM tbl_items";
     cn.displayData(sql, usertable);
+    applyImageRenderer();
 }
 
     
@@ -77,9 +82,11 @@ void displayUser(){
         usertable = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        SearchText = new javax.swing.JTextField();
-        Add = new javax.swing.JPanel();
+        searchField = new javax.swing.JTextField();
+        btnClaim = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
+        Add1 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -270,34 +277,50 @@ void displayUser(){
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 210, 110, 40));
 
-        SearchText.setForeground(new java.awt.Color(153, 153, 153));
-        SearchText.addActionListener(new java.awt.event.ActionListener() {
+        searchField.setForeground(new java.awt.Color(153, 153, 153));
+        searchField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchTextActionPerformed(evt);
+                searchFieldActionPerformed(evt);
             }
         });
-        SearchText.addKeyListener(new java.awt.event.KeyAdapter() {
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                SearchTextKeyReleased(evt);
+                searchFieldKeyReleased(evt);
             }
         });
-        jPanel1.add(SearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 210, 310, 40));
+        jPanel1.add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 210, 310, 40));
 
-        Add.setBackground(new java.awt.Color(102, 102, 102));
-        Add.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Add.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnClaim.setBackground(new java.awt.Color(102, 102, 102));
+        btnClaim.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnClaim.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                AddMouseClicked(evt);
+                btnClaimMouseClicked(evt);
             }
         });
-        Add.setLayout(null);
+        btnClaim.setLayout(null);
 
         jLabel14.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
-        jLabel14.setText("Add");
-        Add.add(jLabel14);
-        jLabel14.setBounds(50, 0, 150, 50);
+        jLabel14.setText("CLAIM");
+        btnClaim.add(jLabel14);
+        jLabel14.setBounds(30, 0, 150, 50);
 
-        jPanel1.add(Add, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 210, 180, 40));
+        jPanel1.add(btnClaim, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 180, 40));
+
+        Add1.setBackground(new java.awt.Color(102, 102, 102));
+        Add1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        Add1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Add1MouseClicked(evt);
+            }
+        });
+        Add1.setLayout(null);
+
+        jLabel15.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
+        jLabel15.setText("Add");
+        Add1.add(jLabel15);
+        jLabel15.setBounds(50, 10, 80, 30);
+
+        jPanel1.add(Add1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, 180, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -369,14 +392,31 @@ void displayUser(){
     
     }//GEN-LAST:event_HomeMouseClicked
 
-    private void AddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddMouseClicked
+    private void btnClaimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClaimMouseClicked
+                                                                          
                                      
-    // This opens your data entry form
-    additemLF add = new additemLF();
-    add.setVisible(true);
-    // We do NOT use this.dispose() here so that Item.java stays open in the background
+    int rowIndex = usertable.getSelectedRow();
+    
+    if (rowIndex < 0) {
+        JOptionPane.showMessageDialog(null, "Please select an item from the table first!");
+        return;
+    }
+    
+    // Index is 1 because item_id is now the second column in our SQL
+    String id = usertable.getModel().getValueAt(rowIndex, 0).toString();
+    String claimant = JOptionPane.showInputDialog(null, "Enter the name of the person claiming this item:");
+    
+    if (claimant != null && !claimant.isEmpty()) {
+        config conf = new config();
+        String sql = "UPDATE tbl_items SET item_status = 'Claimed' WHERE item_id = ?";
+        conf.updateRecord(sql, id);
+        
+        // REFRESH the table to show "Claimed"
+        displayUser();
+    }
 
-    }//GEN-LAST:event_AddMouseClicked
+
+    }//GEN-LAST:event_btnClaimMouseClicked
 
     private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
                                             
@@ -385,41 +425,89 @@ void displayUser(){
 
     }//GEN-LAST:event_jPanel6MouseClicked
 
-    private void SearchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchTextKeyReleased
-       
-                                       
-        config conf = new config();
-        String keyword = SearchText.getText().trim();
-        // Updated search to look through Item Name, Location, and Status
-        String sql = "SELECT item item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items " +
-                     "WHERE item_name LIKE '%" + keyword + "%' " +
-                     "OR item_location LIKE '%" + keyword + "%' " +
-                     "OR item_status LIKE '%" + keyword + "%'";
-        conf.displayData(sql, usertable);
+    private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+                                          
+    String find = searchField.getText();
+    // Use the same column order as displayUser
+    String sql = "SELECT item_image, item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items "
+               + "WHERE item_name LIKE '%" + find + "%' OR item_location LIKE '%" + find + "%'";
     
-    }//GEN-LAST:event_SearchTextKeyReleased
+    config conf = new config();
+    conf.displayData(sql, usertable);
+    
+    // Re-apply the image renderer so the pictures don't turn into text
+    applyImageRenderer();
 
-    private void SearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextActionPerformed
+    }//GEN-LAST:event_searchFieldKeyReleased
+
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_SearchTextActionPerformed
-public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Item().setVisible(true);
+    }//GEN-LAST:event_searchFieldActionPerformed
+
+    private void Add1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Add1MouseClicked
+                                       
+    // 1. Create an instance of your additem frame
+    additem add = new additem(); 
+    
+    // 2. Make the new window visible
+    add.setVisible(true);
+    
+    // 3. Close the current "Item" window
+    this.dispose(); 
+
+    }//GEN-LAST:event_Add1MouseClicked
+     
+    // --- PASTE STARTS HERE ---
+
+    public void applyImageRenderer() {
+    // Set row height to 80 to give the 70x70 image some breathing room
+    usertable.setRowHeight(80);
+
+    // Target column 1 (The "item" column in your UI)
+    usertable.getColumnModel().getColumn(1).setCellRenderer(new javax.swing.table.DefaultTableCellRenderer() {
+        @Override
+        public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            
+            // Check if the data in this cell is an image (byte array)
+            if (value instanceof byte[]) {
+                byte[] bytes = (byte[]) value;
+                
+                // Scale the image to 70x70 using Smooth Scaling
+                java.awt.Image img = new javax.swing.ImageIcon(bytes).getImage();
+                java.awt.Image scaledImg = img.getScaledInstance(70, 70, java.awt.Image.SCALE_SMOOTH);
+                
+                // Create a JLabel to hold the icon
+                javax.swing.JLabel label = new javax.swing.JLabel(new javax.swing.ImageIcon(scaledImg));
+                
+                // Center the image inside the table cell
+                label.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                
+                // Handle background color when a row is selected
+                if (isSelected) {
+                    label.setOpaque(true);
+                    label.setBackground(table.getSelectionBackground());
+                }
+                
+                return label;
             }
-        });
-    }
-  
+            
+            // If there's no image, just show "No Image" text or empty
+            return super.getTableCellRendererComponent(table, "No Image", isSelected, hasFocus, row, column);
+        }
+    });
+}
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Add;
+    private javax.swing.JPanel Add1;
     private javax.swing.JPanel Home;
     private javax.swing.JPanel Reports;
-    private javax.swing.JTextField SearchText;
     private javax.swing.JPanel Settings;
     private javax.swing.JPanel Users;
+    private javax.swing.JPanel btnClaim;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -430,6 +518,28 @@ public static void main(String args[]) {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField searchField;
     private javax.swing.JTable usertable;
     // End of variables declaration//GEN-END:variables
+public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Item().setVisible(true);
+            }
+        });
+    }
 }
+

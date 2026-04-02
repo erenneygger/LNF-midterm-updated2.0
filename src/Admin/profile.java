@@ -11,16 +11,21 @@ import javax.swing.JLabel;
 public class profile extends javax.swing.JFrame {
     private int userId; 
 
+    // Constructor for passing specific userId (e.g., from an Admin list)
     public profile(int userId) {
         this.userId = userId;
         initComponents();
-        displayData();
+        // Use invokeLater to ensure UI is ready before loading image
+        java.awt.EventQueue.invokeLater(() -> {
+            displayData();
+        });
     }
 
+    // Default Constructor (Self-Profile)
     public profile() {
         initComponents();
         
-        // Accessing the static variable we just added to config.java
+        // Use the static session variable from your config
         if (config.userId == 0) { 
             javax.swing.JOptionPane.showMessageDialog(null, "Login Required!");
             new Main.Login().setVisible(true);
@@ -29,44 +34,43 @@ public class profile extends javax.swing.JFrame {
         }
         
         this.userId = config.userId;
-        displayData();
+        
+        // Use invokeLater to ensure UI is ready before loading image
+        java.awt.EventQueue.invokeLater(() -> {
+            displayData();
+        });
     }
 
-   private void displayData() {
-    config conf = new config(); 
-    // I am assuming your primary key is actually 'a_id' based on your code, 
-    // but double check if it is 'u_id' in that first hidden column!
-    String sql = "SELECT fname, lname, email, type, user_image FROM tbl_accounts WHERE a_id = " + userId;
-    
-    try {
-        ResultSet rs = conf.getData(sql);
+    private void displayData() {
+        config conf = new config(); 
+        // 1. SELECT all required columns from tbl_accounts
+        String sql = "SELECT fname, lname, a_id, email, type, user_image FROM tbl_accounts WHERE a_id = " + userId;
+        
+        try {
+            java.sql.ResultSet rs = conf.getData(sql);
 
-        if (rs != null && rs.next()) {
-            Fn.setText(rs.getString("fname"));
-            Ln.setText(rs.getString("lname"));
-            Em.setText(rs.getString("email"));
-            Ut.setText(rs.getString("type"));           
-            fn.setText(rs.getString("fname"));
-            ln.setText(rs.getString("lname"));
-            
-            // This is the specific fix for the image
-            byte[] img = rs.getBytes("user_image"); 
-            
-            if (img != null && img.length > 0) {
-                ImageIcon imageIcon = new ImageIcon(img);
-                // Use lbl_img dimensions or hardcode if preferred
-                Image scaledImage = imageIcon.getImage().getScaledInstance(lbl_img.getWidth(), lbl_img.getHeight(), Image.SCALE_SMOOTH);
-                lbl_img.setIcon(new ImageIcon(scaledImage));
-                lbl_img.setText(""); 
-            } else {
-                lbl_img.setIcon(null);
-                lbl_img.setText("No Image Found");
+            if (rs != null && rs.next()) {
+                // 2. Set Text Fields for Profile Details
+                Fn.setText(rs.getString("fname"));
+                Ln.setText(rs.getString("lname"));
+                id.setText(rs.getString("a_id"));
+                Em.setText(rs.getString("email"));
+                Ut.setText(rs.getString("type"));           
+                fn.setText(rs.getString("fname"));
+                ln.setText(rs.getString("lname"));
+                
+                // 3. Handle the Image
+                // We use the helper method in config.java to handle the BLOB and scaling
+                // This will now work because invokeLater ensured lbl_img has width/height
+                conf.viewImage(sql, lbl_img);
+                
+                // 4. Close the result set to prevent database locks
+                rs.close();
             }
+        } catch (Exception e) {
+            System.out.println("Profile Display Error: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("Display Error: " + e.getMessage());
     }
-}
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

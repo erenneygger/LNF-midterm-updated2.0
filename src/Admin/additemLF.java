@@ -42,6 +42,7 @@ public class additemLF extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        item_image_view1 = new javax.swing.JLabel();
         firstname = new javax.swing.JTextField();
         lastname = new javax.swing.JTextField();
         place = new javax.swing.JTextField();
@@ -56,6 +57,8 @@ public class additemLF extends javax.swing.JFrame {
         Type = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         timedate = new javax.swing.JTextField();
+        save1 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,6 +86,9 @@ public class additemLF extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        item_image_view1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel4.add(item_image_view1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 230, 200, 130));
         jPanel4.add(firstname, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, 240, 40));
         jPanel4.add(lastname, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 30, 240, 40));
 
@@ -122,7 +128,7 @@ public class additemLF extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("SAVE ITEM");
+        jLabel11.setText("BROWSE");
         jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel11MouseClicked(evt);
@@ -130,7 +136,7 @@ public class additemLF extends javax.swing.JFrame {
         });
         save.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, 30));
 
-        jPanel4.add(save, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, 240, 50));
+        jPanel4.add(save, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 280, 240, 50));
 
         Item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,6 +170,33 @@ public class additemLF extends javax.swing.JFrame {
             }
         });
         jPanel4.add(timedate, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 240, 40));
+
+        save1.setBackground(new java.awt.Color(102, 102, 102));
+        save1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        save1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                save1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                save1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                save1MouseExited(evt);
+            }
+        });
+        save1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("SAVE ITEM");
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+        });
+        save1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, 30));
+
+        jPanel4.add(save1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, 240, 50));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 920, 370));
 
@@ -265,6 +298,22 @@ public class additemLF extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ItemActionPerformed
 
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel12MouseClicked
+
+    private void save1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_save1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_save1MouseClicked
+
+    private void save1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_save1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_save1MouseEntered
+
+    private void save1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_save1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_save1MouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -319,8 +368,10 @@ public class additemLF extends javax.swing.JFrame {
     public javax.swing.JTextField Item;
     public javax.swing.JTextField Type;
     public javax.swing.JTextField firstname;
+    public javax.swing.JLabel item_image_view1;
     private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel11;
+    public javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
@@ -334,6 +385,7 @@ public class additemLF extends javax.swing.JFrame {
     private javax.swing.JTextField lastname;
     public javax.swing.JTextField place;
     private javax.swing.JPanel save;
+    private javax.swing.JPanel save1;
     public javax.swing.JTextField timedate;
     // End of variables declaration//GEN-END:variables
 }

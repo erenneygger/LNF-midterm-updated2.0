@@ -17,47 +17,96 @@ import javax.swing.JPanel;
 public class ManageItem extends javax.swing.JFrame {
 
     /**
-     * Creates new form users
+     * Creates new form ManageItem
      */
     public ManageItem() {       
-    // 1. THE GATEKEEPER: Check session first
-    if (Config.Session.userId == 0) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Login Required!");
-        new Main.Login().setVisible(true);
-        this.dispose();
-        return; // This is the "Stop" sign for the code
+        // 1. THE GATEKEEPER: Check session first
+        if (Config.Session.userId == 0) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Login Required!");
+            new Main.Login().setVisible(true);
+            this.dispose();
+            return; 
+        }
+
+        // 2. THE CONTENT
+        initComponents();
+        
+        // Minimalist Table Styling
+        usertable.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        usertable.getTableHeader().setOpaque(false);
+        usertable.getTableHeader().setBackground(new Color(102, 102, 102));
+        usertable.getTableHeader().setForeground(Color.WHITE);
+        usertable.setRowHeight(80); 
+        usertable.setShowGrid(false);
+        usertable.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        
+        // Initial load
+        displayUser();
+        
+        // Auto-refresh when window regains focus
+        this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowGainedFocus(java.awt.event.WindowEvent e) {
+                displayUser();
+            }
+        });
+    }
+    
+    void displayUser() {
+        config cn = new config();
+        // ORDER MATTERS: ID(0), Image(1), Name(2), Time(3), Location(4), Type(5), Reporter(6), Status(7)
+        String sql = "SELECT item_id, item_image, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items";
+        
+        cn.displayData(sql, usertable);
+        
+        // Apply the visual renderer so the image path shows as an actual photo
+        applyImageRenderer();
     }
 
-    // 2. THE CONTENT: Only runs if userId is NOT 0
-    initComponents();
-    displayUser();
-    
-    this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
+    private void applyImageRenderer() {
+    // Targets Column 1 (item_image) based on your SQL query: 
+    // SELECT item_id, item_image...
+    usertable.getColumnModel().getColumn(1).setCellRenderer(new javax.swing.table.DefaultTableCellRenderer() {
         @Override
-        public void windowGainedFocus(java.awt.event.WindowEvent e) {
-            displayUser();
+        public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            javax.swing.JLabel label = new javax.swing.JLabel();
+            
+            // Set basic alignment
+            label.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+
+            // 1. CHECK IF THE DATA IS A BYTE ARRAY (BLOB)
+            if (value instanceof byte[]) {
+                byte[] imgData = (byte[]) value;
+                java.util.Base64.Decoder decoder = java.util.Base64.getDecoder();
+                
+                // Convert bytes to ImageIcon
+                javax.swing.ImageIcon imageIcon = new javax.swing.ImageIcon(imgData);
+                
+                // Resize to fit your rowHeight (which is 80)
+                java.awt.Image img = imageIcon.getImage().getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
+                label.setIcon(new javax.swing.ImageIcon(img));
+                
+            } 
+            // 2. FALLBACK: IF THE DATA IS STILL A FILE PATH (STRING)
+            else if (value != null && !value.toString().isEmpty()) {
+                config conf = new config();
+                // Use your existing helper to resize the path-based image
+                label.setIcon(conf.ResizeImage(value.toString(), null, label));
+            }
+
+            // 3. MAINTAIN SELECTION COLORS
+            if (isSelected) {
+                label.setOpaque(true);
+                label.setBackground(table.getSelectionBackground());
+                label.setForeground(table.getSelectionForeground());
+            } else {
+                label.setOpaque(false);
+            }
+
+            return label;
         }
     });
 }
-    
-void displayUser(){
-       
-    // DO NOT open a manual connection here. 
-    // Let the config class handle the opening AND closing.
-    config cn = new config();
-    String sql = "SELECT item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items";
-    
-    // This method in your new config.java uses try-with-resources
-    // It will close the connection as soon as the table is filled.
-    cn.displayData(sql, usertable);
-}
-    
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -78,7 +127,7 @@ void displayUser(){
         usertable = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        SearchText = new javax.swing.JTextField();
+        searchField = new javax.swing.JTextField();
         approve = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         add = new javax.swing.JPanel();
@@ -262,6 +311,11 @@ void displayUser(){
                 return canEdit [columnIndex];
             }
         });
+        usertable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usertableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(usertable);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 930, 340));
@@ -282,18 +336,18 @@ void displayUser(){
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 210, 110, 40));
 
-        SearchText.setForeground(new java.awt.Color(153, 153, 153));
-        SearchText.addActionListener(new java.awt.event.ActionListener() {
+        searchField.setForeground(new java.awt.Color(153, 153, 153));
+        searchField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchTextActionPerformed(evt);
+                searchFieldActionPerformed(evt);
             }
         });
-        SearchText.addKeyListener(new java.awt.event.KeyAdapter() {
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                SearchTextKeyReleased(evt);
+                searchFieldKeyReleased(evt);
             }
         });
-        jPanel1.add(SearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 210, 240, 40));
+        jPanel1.add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 210, 240, 40));
 
         approve.setBackground(new java.awt.Color(102, 102, 102));
         approve.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -305,9 +359,9 @@ void displayUser(){
         approve.setLayout(null);
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel14.setText("Approve");
+        jLabel14.setText("Claim");
         approve.add(jLabel14);
-        jLabel14.setBounds(10, 0, 110, 40);
+        jLabel14.setBounds(30, 0, 110, 40);
 
         jPanel1.add(approve, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 210, 120, 40));
 
@@ -462,23 +516,26 @@ void displayUser(){
 
     }//GEN-LAST:event_jPanel6MouseClicked
 
-    private void SearchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchTextKeyReleased
-                                                                                       
+    private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+                                                                                                                                
+    String find = searchField.getText();
+    
+    // MUST MATCH the order in displayUser: ID(0), Image(1), Name(2)...
+    String sql = "SELECT item_id, item_image, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items "
+               + "WHERE item_name LIKE '%" + find + "%' OR item_location LIKE '%" + find + "%' OR item_type LIKE '%" + find + "%'";
+    
     config conf = new config();
-    String keyword = SearchText.getText().trim();
-    // Fixed the "item item_id" typo and kept the 7-column structure
-    String sql = "SELECT item_id, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items " +
-                 "WHERE item_name LIKE '%" + keyword + "%' " +
-                 "OR item_location LIKE '%" + keyword + "%' " +
-                 "OR reported_by LIKE '%" + keyword + "%' " + // Added search by reporter
-                 "OR item_status LIKE '%" + keyword + "%'";
     conf.displayData(sql, usertable);
-  
-    }//GEN-LAST:event_SearchTextKeyReleased
+    
+    // Always re-apply the renderer after displayData or the icons turn back into text paths
+    applyImageRenderer();
 
-    private void SearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextActionPerformed
+
+    }//GEN-LAST:event_searchFieldKeyReleased
+
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_SearchTextActionPerformed
+    }//GEN-LAST:event_searchFieldActionPerformed
 
     private void addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMouseClicked
                                        
@@ -498,10 +555,8 @@ void displayUser(){
         JOptionPane.showMessageDialog(null, "Please select an item!");
     } else {
         config conf = new config();
-        java.sql.ResultSet rs = null;
         try {
-            // Using your existing getData method
-            rs = conf.getData("SELECT * FROM tbl_items WHERE item_id = '" + usertable.getValueAt(rowIndex, 0) + "'");
+            java.sql.ResultSet rs = conf.getData("SELECT * FROM tbl_items WHERE item_id = '" + usertable.getValueAt(rowIndex, 0) + "'");
             
             if (rs.next()) {
                 additem ai = new additem();
@@ -512,12 +567,18 @@ void displayUser(){
                 ai.Type.setText(rs.getString("item_type"));
                 ai.firstname.setText(rs.getString("reported_by"));
                 
-                ai.jLabel11.setText("UPDATE"); 
+                // --- NEW CODE FOR IMAGE ---
+                String imagePath = rs.getString("item_image");
+                if(imagePath != null && !imagePath.isEmpty()){
+                    // Assuming 'image_display' is the JLabel in your additem.java
+                    ai.image_display.setIcon(conf.ResizeImage(imagePath, null, ai.image_display));
+                }
+                // --------------------------
+
+                ai.image_display.setText("UPDATE"); 
                 ai.setVisible(true);
                 
-                // IMPORTANT: Close the ResultSet and its Statement immediately!
                 rs.getStatement().getConnection().close(); 
-                
                 this.dispose();
             }
         } catch (java.sql.SQLException ex) {
@@ -561,6 +622,37 @@ void displayUser(){
     this.dispose(); 
        // TODO add your handling code here:
     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void usertableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usertableMouseClicked
+                                            
+    int rowIndex = usertable.getSelectedRow();
+    
+    if(rowIndex < 0){
+        JOptionPane.showMessageDialog(null, "Please select an item!");
+    } else {
+        try {
+            config conf = new config();
+            // Retrieve all data for the selected ID
+            java.sql.ResultSet rs = conf.getData("SELECT * FROM tbl_items WHERE item_id = '" 
+                    + usertable.getValueAt(rowIndex, 0) + "'");
+            
+            if(rs.next()){
+                // 1. If you have a JLabel on THIS page to show the image:
+                // Assuming you have a JLabel named 'image_view'
+                String path = rs.getString("item_image");
+                
+                // Use your config class helper to scale and set the image
+                // Replace 'image_view' with your actual JLabel name
+                // image_view.setIcon(conf.ResizeImage(path, null, image_view));
+                
+                System.out.println("Selected Item Image Path: " + path);
+            }
+        } catch(java.sql.SQLException ex) {
+            System.out.println("Error fetching image: " + ex.getMessage());
+        }
+    }
+
+    }//GEN-LAST:event_usertableMouseClicked
 public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -572,7 +664,6 @@ public static void main(String args[]) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Home;
     private javax.swing.JPanel Reports;
-    private javax.swing.JTextField SearchText;
     private javax.swing.JPanel Settings;
     private javax.swing.JPanel Users;
     private javax.swing.JPanel add;
@@ -594,6 +685,7 @@ public static void main(String args[]) {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField searchField;
     private javax.swing.JPanel update;
     private javax.swing.JTable usertable;
     // End of variables declaration//GEN-END:variables

@@ -220,6 +220,7 @@ public class config {
 
     /**
      * viewImage: Fetches image bytes from DB and fits them into a specific JLabel.
+     * Fixed to target the correct BLOB column and handle scaling properly.
      */
     public void viewImage(String sql, JLabel label) {
         if (label == null) {
@@ -232,15 +233,19 @@ public class config {
              ResultSet rs = pstmt.executeQuery()) {
 
             if (rs.next()) {
-                byte[] imgBytes = rs.getBytes(1);
-                if (imgBytes != null) {
+                // FIXED: Changed from index (1) to column name "user_image"
+                byte[] imgBytes = rs.getBytes("user_image");
+
+                if (imgBytes != null && imgBytes.length > 0) {
                     ImageIcon myImage = new ImageIcon(imgBytes);
                     Image img = myImage.getImage();
                     
-                    int width = (label.getWidth() > 0) ? label.getWidth() : 130;
-                    int height = (label.getHeight() > 0) ? label.getHeight() : 130;
+                    // Fallback to 360x270 if width/height is 0.
+                    int width = (label.getWidth() > 0) ? label.getWidth() : 360;
+                    int height = (label.getHeight() > 0) ? label.getHeight() : 270;
 
                     Image newImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                    
                     label.setIcon(new ImageIcon(newImg));
                     label.setText(""); 
                 } else {
@@ -250,6 +255,30 @@ public class config {
             }
         } catch (SQLException ex) {
             System.out.println("Error fetching image: " + ex.getMessage());
+        } catch (Exception ex) {
+            System.out.println("General Image Error: " + ex.getMessage());
         }
+    }
+
+    /**
+     * NEW: ResizeImage
+     * This takes a file path string and converts it into a scaled ImageIcon for JLabels/JTables.
+     */
+    public ImageIcon ResizeImage(String imgPath, byte[] pic, JLabel label) {
+        ImageIcon myImage;
+        if (imgPath != null) {
+            myImage = new ImageIcon(imgPath);
+        } else {
+            myImage = new ImageIcon(pic);
+        }
+
+        Image img = myImage.getImage();
+        
+        // Defaults to row height (80) or label size
+        int width = (label.getWidth() > 0) ? label.getWidth() : 130; 
+        int height = (label.getHeight() > 0) ? label.getHeight() : 80;
+
+        Image newImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(newImg);
     }
 }
