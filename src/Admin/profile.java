@@ -34,7 +34,9 @@ public class profile extends javax.swing.JFrame {
 
    private void displayData() {
     config conf = new config(); 
-    String sql = "SELECT fname, lname, a_id, email, type, user_image FROM tbl_accounts WHERE a_id = " + userId;
+    // I am assuming your primary key is actually 'a_id' based on your code, 
+    // but double check if it is 'u_id' in that first hidden column!
+    String sql = "SELECT fname, lname, email, type, user_image FROM tbl_accounts WHERE a_id = " + userId;
     
     try {
         ResultSet rs = conf.getData(sql);
@@ -42,32 +44,29 @@ public class profile extends javax.swing.JFrame {
         if (rs != null && rs.next()) {
             Fn.setText(rs.getString("fname"));
             Ln.setText(rs.getString("lname"));
-            id.setText(rs.getString("a_id"));
             Em.setText(rs.getString("email"));
             Ut.setText(rs.getString("type"));           
             fn.setText(rs.getString("fname"));
             ln.setText(rs.getString("lname"));
             
+            // This is the specific fix for the image
             byte[] img = rs.getBytes("user_image"); 
             
             if (img != null && img.length > 0) {
                 ImageIcon imageIcon = new ImageIcon(img);
-                // Hardcoding 360x270 ensures it doesn't fail if the label hasn't loaded yet
-                Image scaledImage = imageIcon.getImage().getScaledInstance(360, 270, Image.SCALE_SMOOTH);
+                // Use lbl_img dimensions or hardcode if preferred
+                Image scaledImage = imageIcon.getImage().getScaledInstance(lbl_img.getWidth(), lbl_img.getHeight(), Image.SCALE_SMOOTH);
                 lbl_img.setIcon(new ImageIcon(scaledImage));
                 lbl_img.setText(""); 
             } else {
                 lbl_img.setIcon(null);
                 lbl_img.setText("No Image Found");
             }
-            // Close the result set after use
-            rs.close();
         }
     } catch (Exception e) {
         System.out.println("Display Error: " + e.getMessage());
     }
 }
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -112,7 +111,7 @@ public class profile extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Colonna MT", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("PROFILE");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, -30, -1, 183));

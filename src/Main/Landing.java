@@ -57,14 +57,14 @@ public class Landing extends javax.swing.JFrame {
         });
         Login.setLayout(null);
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Colonna MT", 1, 27)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel18.setText("Sign Up");
         Login.add(jLabel18);
-        jLabel18.setBounds(20, 20, 90, 20);
+        jLabel18.setBounds(0, 0, 130, 60);
 
-        jPanel3.add(Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 30, 120, 60));
+        jPanel3.add(Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 30, 130, 60));
 
         Register.setBackground(new java.awt.Color(102, 102, 102));
         Register.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -75,14 +75,14 @@ public class Landing extends javax.swing.JFrame {
         });
         Register.setLayout(null);
 
-        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Colonna MT", 1, 27)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("Register");
         Register.add(jLabel19);
-        jLabel19.setBounds(20, 20, 85, 20);
+        jLabel19.setBounds(5, 0, 120, 60);
 
-        jPanel3.add(Register, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, 120, 60));
+        jPanel3.add(Register, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, 130, 60));
 
         jLabel8.setBackground(new java.awt.Color(102, 102, 102));
         jLabel8.setFont(new java.awt.Font("Stencil", 1, 36)); // NOI18N
@@ -94,13 +94,13 @@ public class Landing extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Stencil", 1, 36)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(102, 102, 102));
         jLabel9.setText("carries the hope of ");
-        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, 70));
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 70));
 
         jLabel11.setBackground(new java.awt.Color(102, 102, 102));
         jLabel11.setFont(new java.awt.Font("Stencil", 1, 36)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(102, 102, 102));
         jLabel11.setText("being found again.");
-        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, 40));
+        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, 40));
 
         jLabel15.setBackground(new java.awt.Color(102, 102, 102));
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/background 2.png"))); // NOI18N

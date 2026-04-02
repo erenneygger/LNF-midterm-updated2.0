@@ -44,23 +44,24 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JPanel();
         jLabel8logout = new javax.swing.JLabel();
         Approve = new javax.swing.JPanel();
         jLabel7reports = new javax.swing.JLabel();
         Profile = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         Users = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         Home = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         searchField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -69,18 +70,12 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Colonna MT", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("ADMIN DASHBOARD");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 540, 70));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test3.png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 240, 110));
-
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 130));
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test3.png"))); // NOI18N
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 250, 260, 270));
 
         logoutBtn.setBackground(new java.awt.Color(102, 102, 102));
         logoutBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -89,28 +84,14 @@ public class adminDashboard extends javax.swing.JFrame {
                 logoutBtnMouseClicked(evt);
             }
         });
+        logoutBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel8logout.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel8logout.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel8logout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8logout.setText("Logout");
+        logoutBtn.add(jLabel8logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 220, 70));
 
-        javax.swing.GroupLayout logoutBtnLayout = new javax.swing.GroupLayout(logoutBtn);
-        logoutBtn.setLayout(logoutBtnLayout);
-        logoutBtnLayout.setHorizontalGroup(
-            logoutBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(logoutBtnLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel8logout, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
-        logoutBtnLayout.setVerticalGroup(
-            logoutBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logoutBtnLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel8logout, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel1.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, -1, 80));
+        jPanel1.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 510, 250, 90));
 
         Approve.setBackground(new java.awt.Color(102, 102, 102));
         Approve.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -125,28 +106,14 @@ public class adminDashboard extends javax.swing.JFrame {
                 ApproveMouseExited(evt);
             }
         });
+        Approve.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel7reports.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel7reports.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel7reports.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7reports.setText("Manage Item");
+        Approve.add(jLabel7reports, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 90));
 
-        javax.swing.GroupLayout ApproveLayout = new javax.swing.GroupLayout(Approve);
-        Approve.setLayout(ApproveLayout);
-        ApproveLayout.setHorizontalGroup(
-            ApproveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ApproveLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel7reports, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
-        );
-        ApproveLayout.setVerticalGroup(
-            ApproveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ApproveLayout.createSequentialGroup()
-                .addComponent(jLabel7reports, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(Approve, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, -1, 80));
+        jPanel1.add(Approve, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 250, 80));
 
         Profile.setBackground(new java.awt.Color(102, 102, 102));
         Profile.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -161,29 +128,17 @@ public class adminDashboard extends javax.swing.JFrame {
                 ProfileMouseExited(evt);
             }
         });
+        Profile.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Profile");
+        Profile.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 14, 189, 71));
 
-        javax.swing.GroupLayout ProfileLayout = new javax.swing.GroupLayout(Profile);
-        Profile.setLayout(ProfileLayout);
-        ProfileLayout.setHorizontalGroup(
-            ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ProfileLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
-        ProfileLayout.setVerticalGroup(
-            ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ProfileLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jPanel1.add(Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 250, -1));
 
-        jPanel1.add(Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, -1, -1));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test3.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 250, 240, 110));
 
         Users.setBackground(new java.awt.Color(102, 102, 102));
         Users.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -198,28 +153,14 @@ public class adminDashboard extends javax.swing.JFrame {
                 UsersMouseExited(evt);
             }
         });
+        Users.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Manage users");
+        Users.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 240, 80));
 
-        javax.swing.GroupLayout UsersLayout = new javax.swing.GroupLayout(Users);
-        Users.setLayout(UsersLayout);
-        UsersLayout.setHorizontalGroup(
-            UsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(UsersLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
-        UsersLayout.setVerticalGroup(
-            UsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(UsersLayout.createSequentialGroup()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(Users, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, -1, -1));
+        jPanel1.add(Users, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, -1, -1));
 
         Home.setBackground(new java.awt.Color(102, 102, 102));
         Home.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -231,26 +172,17 @@ public class adminDashboard extends javax.swing.JFrame {
                 HomeMouseExited(evt);
             }
         });
+        Home.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Home");
+        Home.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 3, 230, 84));
 
-        javax.swing.GroupLayout HomeLayout = new javax.swing.GroupLayout(Home);
-        Home.setLayout(HomeLayout);
-        HomeLayout.setHorizontalGroup(
-            HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(HomeLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
-        HomeLayout.setVerticalGroup(
-            HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-        );
+        jPanel1.add(Home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, -1, 90));
 
-        jPanel1.add(Home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, -1, -1));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/background 2.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-170, 180, 1160, 460));
 
         jPanel3.setBackground(new java.awt.Color(51, 51, 51));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -279,21 +211,7 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 990, 50));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(39, 39, 39))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 609));
 
         pack();
         setLocationRelativeTo(null);

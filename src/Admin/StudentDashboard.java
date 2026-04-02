@@ -49,14 +49,15 @@ public class StudentDashboard extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         setting = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        logoutBtn = new javax.swing.JPanel();
-        jLabel8logout = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         searchField = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        logoutBtn = new javax.swing.JPanel();
+        jLabel8logout = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -65,12 +66,12 @@ public class StudentDashboard extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Arial Black", 0, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Colonna MT", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("LOST AND FOUND HUB");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(194, 27, -1, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, -1, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 130));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 970, 110));
 
         Home1.setBackground(new java.awt.Color(102, 102, 102));
         Home1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -82,26 +83,14 @@ public class StudentDashboard extends javax.swing.JFrame {
                 Home1MouseExited(evt);
             }
         });
+        Home1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel8.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Home");
+        Home1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 70));
 
-        javax.swing.GroupLayout Home1Layout = new javax.swing.GroupLayout(Home1);
-        Home1.setLayout(Home1Layout);
-        Home1Layout.setHorizontalGroup(
-            Home1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Home1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
-        Home1Layout.setVerticalGroup(
-            Home1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(Home1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 250, 60));
+        jPanel1.add(Home1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 250, 90));
 
         item.setBackground(new java.awt.Color(102, 102, 102));
         item.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -116,28 +105,14 @@ public class StudentDashboard extends javax.swing.JFrame {
                 itemMouseExited(evt);
             }
         });
+        item.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Item");
+        item.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 3, 240, 70));
 
-        javax.swing.GroupLayout itemLayout = new javax.swing.GroupLayout(item);
-        item.setLayout(itemLayout);
-        itemLayout.setHorizontalGroup(
-            itemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(itemLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
-        itemLayout.setVerticalGroup(
-            itemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(itemLayout.createSequentialGroup()
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(item, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 250, 60));
+        jPanel1.add(item, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 250, 80));
 
         Profile1.setBackground(new java.awt.Color(102, 102, 102));
         Profile1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -152,29 +127,14 @@ public class StudentDashboard extends javax.swing.JFrame {
                 Profile1MouseExited(evt);
             }
         });
+        Profile1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Profile");
+        Profile1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 4, 250, 80));
 
-        javax.swing.GroupLayout Profile1Layout = new javax.swing.GroupLayout(Profile1);
-        Profile1.setLayout(Profile1Layout);
-        Profile1Layout.setHorizontalGroup(
-            Profile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Profile1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
-        );
-        Profile1Layout.setVerticalGroup(
-            Profile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Profile1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(Profile1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 250, 60));
+        jPanel1.add(Profile1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 250, 90));
 
         setting.setBackground(new java.awt.Color(102, 102, 102));
         setting.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -186,66 +146,14 @@ public class StudentDashboard extends javax.swing.JFrame {
                 settingMouseExited(evt);
             }
         });
+        setting.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel10.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Setting");
+        setting.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, -1, 250, 80));
 
-        javax.swing.GroupLayout settingLayout = new javax.swing.GroupLayout(setting);
-        setting.setLayout(settingLayout);
-        settingLayout.setHorizontalGroup(
-            settingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingLayout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
-        );
-        settingLayout.setVerticalGroup(
-            settingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel10)
-                .addContainerGap())
-        );
-
-        jPanel1.add(setting, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 250, 60));
-
-        logoutBtn.setBackground(new java.awt.Color(102, 102, 102));
-        logoutBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        logoutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logoutBtnMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                logoutBtnMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                logoutBtnMouseExited(evt);
-            }
-        });
-
-        jLabel8logout.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
-        jLabel8logout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8logout.setText("Logout");
-
-        javax.swing.GroupLayout logoutBtnLayout = new javax.swing.GroupLayout(logoutBtn);
-        logoutBtn.setLayout(logoutBtnLayout);
-        logoutBtnLayout.setHorizontalGroup(
-            logoutBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logoutBtnLayout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addComponent(jLabel8logout, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
-        );
-        logoutBtnLayout.setVerticalGroup(
-            logoutBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logoutBtnLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8logout)
-                .addContainerGap())
-        );
-
-        jPanel1.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 250, 60));
+        jPanel1.add(setting, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 250, 80));
 
         jPanel3.setBackground(new java.awt.Color(51, 51, 51));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -274,28 +182,35 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 990, 50));
 
-        jPanel4.setBackground(new java.awt.Color(102, 102, 102));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, 250, 130));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test3.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 220, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test3.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 350, 233, 108));
+        logoutBtn.setBackground(new java.awt.Color(102, 102, 102));
+        logoutBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        logoutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutBtnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                logoutBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                logoutBtnMouseExited(evt);
+            }
+        });
+        logoutBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 146, Short.MAX_VALUE))
-        );
+        jLabel8logout.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
+        jLabel8logout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8logout.setText("Logout");
+        logoutBtn.add(jLabel8logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -1, 250, 80));
+
+        jPanel1.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, 250, 80));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/background 2.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-180, 180, 1170, 460));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -21, 964, 630));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -353,34 +268,6 @@ public class StudentDashboard extends javax.swing.JFrame {
         resetColor(setting);
     }//GEN-LAST:event_settingMouseExited
 
-    private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
-
-        // 1. Ask for confirmation (Optional but highly recommended)
-        int confirm = javax.swing.JOptionPane.showConfirmDialog(null,
-            "Are you sure you want to logout?", "Logout",
-            javax.swing.JOptionPane.YES_NO_OPTION);
-
-        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-            // 2. Clear the Session (Reset to 0)
-            Config.Session.userId = 0;
-
-            // 3. Open Login Frame
-            Main.Login login = new Main.Login();
-            login.setVisible(true);
-
-            // 4. Close the Dashboard
-            this.dispose();
-        }
-    }//GEN-LAST:event_logoutBtnMouseClicked
-
-    private void logoutBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_logoutBtnMouseEntered
-
-    private void logoutBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_logoutBtnMouseExited
-
     private void searchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFieldFocusGained
         if (searchField.getText().equals("Search...")) {
             searchField.setText("");
@@ -402,6 +289,34 @@ public class StudentDashboard extends javax.swing.JFrame {
     private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_searchFieldKeyReleased
+
+    private void logoutBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logoutBtnMouseExited
+
+    private void logoutBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logoutBtnMouseEntered
+
+    private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
+
+        // 1. Ask for confirmation (Optional but highly recommended)
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(null,
+            "Are you sure you want to logout?", "Logout",
+            javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            // 2. Clear the Session (Reset to 0)
+            Config.Session.userId = 0;
+
+            // 3. Open Login Frame
+            Main.Login login = new Main.Login();
+            login.setVisible(true);
+
+            // 4. Close the Dashboard
+            this.dispose();
+        }
+    }//GEN-LAST:event_logoutBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -448,6 +363,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel8logout;
@@ -455,7 +371,6 @@ public class StudentDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel logoutBtn;
     private javax.swing.JTextField searchField;
     private javax.swing.JPanel setting;
