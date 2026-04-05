@@ -83,8 +83,6 @@ void displayUser(){
         jPanel6 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
-        btnClaim = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
         Add1 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
 
@@ -290,22 +288,6 @@ void displayUser(){
         });
         jPanel1.add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 210, 310, 40));
 
-        btnClaim.setBackground(new java.awt.Color(102, 102, 102));
-        btnClaim.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnClaim.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnClaimMouseClicked(evt);
-            }
-        });
-        btnClaim.setLayout(null);
-
-        jLabel14.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
-        jLabel14.setText("CLAIM");
-        btnClaim.add(jLabel14);
-        jLabel14.setBounds(30, 0, 150, 50);
-
-        jPanel1.add(btnClaim, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 180, 40));
-
         Add1.setBackground(new java.awt.Color(102, 102, 102));
         Add1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         Add1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -320,7 +302,7 @@ void displayUser(){
         Add1.add(jLabel15);
         jLabel15.setBounds(50, 10, 80, 30);
 
-        jPanel1.add(Add1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, 180, 40));
+        jPanel1.add(Add1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 210, 180, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -391,32 +373,6 @@ void displayUser(){
         this.dispose();
     
     }//GEN-LAST:event_HomeMouseClicked
-
-    private void btnClaimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClaimMouseClicked
-                                                                          
-                                     
-    int rowIndex = usertable.getSelectedRow();
-    
-    if (rowIndex < 0) {
-        JOptionPane.showMessageDialog(null, "Please select an item from the table first!");
-        return;
-    }
-    
-    // Index is 1 because item_id is now the second column in our SQL
-    String id = usertable.getModel().getValueAt(rowIndex, 0).toString();
-    String claimant = JOptionPane.showInputDialog(null, "Enter the name of the person claiming this item:");
-    
-    if (claimant != null && !claimant.isEmpty()) {
-        config conf = new config();
-        String sql = "UPDATE tbl_items SET item_status = 'Claimed' WHERE item_id = ?";
-        conf.updateRecord(sql, id);
-        
-        // REFRESH the table to show "Claimed"
-        displayUser();
-    }
-
-
-    }//GEN-LAST:event_btnClaimMouseClicked
 
     private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
                                             
@@ -503,10 +459,8 @@ void displayUser(){
     private javax.swing.JPanel Reports;
     private javax.swing.JPanel Settings;
     private javax.swing.JPanel Users;
-    private javax.swing.JPanel btnClaim;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

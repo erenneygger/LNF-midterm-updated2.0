@@ -31,7 +31,13 @@ public class ManageItem extends javax.swing.JFrame {
         // 2. THE CONTENT
         initComponents();
         
-        // Minimalist Table Styling
+        // === TABLE SELECTION & BEHAVIOR ===
+        // Prevents selecting multiple rows to protect your logic
+        usertable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        usertable.setRowSelectionAllowed(true);
+        usertable.setColumnSelectionAllowed(false);
+        
+        // 3. MINIMALIST TABLE STYLING
         usertable.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
         usertable.getTableHeader().setOpaque(false);
         usertable.getTableHeader().setBackground(new Color(102, 102, 102));
@@ -40,10 +46,10 @@ public class ManageItem extends javax.swing.JFrame {
         usertable.setShowGrid(false);
         usertable.setIntercellSpacing(new java.awt.Dimension(0, 0));
         
-        // Initial load
+        // 4. INITIAL LOAD
         displayUser();
         
-        // Auto-refresh when window regains focus
+        // 5. AUTO-REFRESH
         this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowGainedFocus(java.awt.event.WindowEvent e) {
@@ -53,16 +59,21 @@ public class ManageItem extends javax.swing.JFrame {
     }
     
     void displayUser() {
-        config cn = new config();
-        // ORDER MATTERS: ID(0), Image(1), Name(2), Time(3), Location(4), Type(5), Reporter(6), Status(7)
-        String sql = "SELECT item_id, item_image, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items";
-        
-        cn.displayData(sql, usertable);
-        
-        // Apply the visual renderer so the image path shows as an actual photo
-        applyImageRenderer();
-    }
+    config cn = new config();
+    
+    // Updated SQL to ensure the column order matches your JTable model
+    String sql = "SELECT i.item_id, i.item_image, i.item_name, i.reported_by, " +
+                 "i.item_time, i.item_location, i.item_type, i.item_status " +
+                 "FROM tbl_items i";
+    
+    cn.displayData(sql, usertable);
+    
+    // Ensure the image renderer is applied to column index 1 (item_image)
+    usertable.getColumnModel().getColumn(1).setPreferredWidth(80);
+    applyImageRenderer();
 
+
+}
     private void applyImageRenderer() {
     // Targets Column 1 (item_image) based on your SQL query: 
     // SELECT item_id, item_image...
@@ -174,6 +185,11 @@ public class ManageItem extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Users");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout UsersLayout = new javax.swing.GroupLayout(Users);
         Users.setLayout(UsersLayout);
@@ -238,7 +254,12 @@ public class ManageItem extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Settings");
+        jLabel3.setText("Records");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout SettingsLayout = new javax.swing.GroupLayout(Settings);
         Settings.setLayout(SettingsLayout);
@@ -484,26 +505,38 @@ public class ManageItem extends javax.swing.JFrame {
 
     private void approveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_approveMouseClicked
                                                                           
-                                        
+                                       
     int rowIndex = usertable.getSelectedRow();
 
     if (rowIndex < 0) {
-        JOptionPane.showMessageDialog(null, "Please select an item to approve!");
+        // Validation: Ensure a row is actually clicked in the table
+        JOptionPane.showMessageDialog(null, "Please select an item to claim!");
     } else {
-        config conf = new config();
-        // 1. Get the ID from the first column (index 0)
-        String id = usertable.getValueAt(rowIndex, 0).toString();
-        
-        // 2. Execute the Update directly
-        // Ensure 'item_status' matches the column name in your SQLite table exactly
-        String sql = "UPDATE tbl_items SET item_status = ? WHERE item_id = ?";
-        
-        conf.updateRecord(sql, "Approved", id);
-        
-        // 3. UI Feedback and Refresh
-        JOptionPane.showMessageDialog(null, "Item has been Approved!");
-        displayUser(); // This re-runs the SELECT query to show "Approved" in the table
+        try {
+            // 1. Get the ID from the first column (Index 0)
+            String id = usertable.getValueAt(rowIndex, 0).toString();
+            
+            // 2. Create the Claiming page instance
+            Claiming clm = new Claiming();
+            
+            // 3. AUTO-FILL: This part only works because you set the modifier to 'public'
+            clm.Pass.setText(id); 
+            
+            // OPTIONAL: Auto-fill today's date into the 'confpass' field
+            // This saves the admin even more time!
+            java.time.LocalDate today = java.time.LocalDate.now();
+            clm.confpass.setText(today.toString()); 
+            
+            // 4. Navigation
+            clm.setVisible(true);
+            this.dispose(); 
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error passing data: " + e.getMessage());
+        }
     }
+
+
 
 
 
@@ -517,17 +550,20 @@ public class ManageItem extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel6MouseClicked
 
     private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
-                                                                                                                                
+                                                                                                                                                                                                                   
+                                            
     String find = searchField.getText();
     
-    // MUST MATCH the order in displayUser: ID(0), Image(1), Name(2)...
-    String sql = "SELECT item_id, item_image, item_name, item_time, item_location, item_type, reported_by, item_status FROM tbl_items "
-               + "WHERE item_name LIKE '%" + find + "%' OR item_location LIKE '%" + find + "%' OR item_type LIKE '%" + find + "%'";
+    // We removed the JOIN and "date_claimed" to match your JTable columns
+    String sql = "SELECT i.item_id, i.item_image, i.item_name, i.reported_by, " +
+                 "i.item_time, i.item_location, i.item_type, i.item_status " + 
+                 "FROM tbl_items i " +
+                 "WHERE i.item_name LIKE '%" + find + "%' OR i.item_location LIKE '%" + find + "%'";
     
     config conf = new config();
     conf.displayData(sql, usertable);
     
-    // Always re-apply the renderer after displayData or the icons turn back into text paths
+    // This keeps the images visible even while searching
     applyImageRenderer();
 
 
@@ -653,6 +689,33 @@ public class ManageItem extends javax.swing.JFrame {
     }
 
     }//GEN-LAST:event_usertableMouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+                                          
+    // 1. Create the instance of the records page
+    // Note: If your file is named 'Records.java' (capital R), use 'Records' instead.
+    records rec = new records(); 
+    
+    // 2. Make the new window appear
+    rec.setVisible(true);
+    
+    // 3. Close the current ManageItem window
+    this.dispose();
+
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+                                                
+    // 1. Create the instance of the users window
+    users userPage = new users(); 
+
+    // 2. Make the users window visible
+    userPage.setVisible(true);
+
+    // 3. Close the current ManageItem window to free up memory
+    this.dispose(); 
+
+    }//GEN-LAST:event_jLabel6MouseClicked
 public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

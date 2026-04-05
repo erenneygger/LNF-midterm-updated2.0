@@ -312,7 +312,7 @@ public class additem extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel13MouseClicked
 
     private void addU2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addU2MouseClicked
-                                       
+                                      
     config conf = new config();
     
     // 1. Validation: Ensure image and essential fields are present
@@ -327,40 +327,47 @@ public class additem extends javax.swing.JFrame {
     }
 
     // 2. Prepare Data
-    String fullName = firstname.getText() + " " + lastname.getText();
+    String fullName = firstname.getText() + " " + (lastname.getText().isEmpty() ? "" : lastname.getText());
     String status = "Pending"; // Default status for new items
 
     // 3. Save Logic (Handles both INSERT and UPDATE)
-    if (itemId == 0) { // If itemId is 0, we are adding a new record
-        String sql = "INSERT INTO tbl_items (item_name, item_time, item_location, item_type, reported_by, item_status, item_image) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        
-        conf.addRecord(sql, Item.getText(), timedate.getText(), place.getText(), 
-                       Type.getText(), fullName, status, itemImageData);
-        
-        JOptionPane.showMessageDialog(null, "Successfully Added!");
-    } else { // If itemId is NOT 0, we are updating an existing record
-        String sql = "UPDATE tbl_items SET item_name = ?, item_time = ?, item_location = ?, "
-                   + "item_type = ?, reported_by = ?, item_image = ? WHERE item_id = ?";
-        
-        // Pass the itemId as the last parameter for the WHERE clause
-        conf.updateRecord(sql, Item.getText(), timedate.getText(), place.getText(), 
-                          Type.getText(), fullName, itemImageData, String.valueOf(itemId));
-        
-        JOptionPane.showMessageDialog(null, "Successfully Updated!");
+    try {
+        if (itemId == 0) { // If itemId is 0, we are adding a new record
+            String sql = "INSERT INTO tbl_items (item_name, item_time, item_location, item_type, reported_by, item_status, item_image) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            
+            conf.addRecord(sql, Item.getText(), timedate.getText(), place.getText(), 
+                           Type.getText(), fullName, status, itemImageData);
+            
+            JOptionPane.showMessageDialog(null, "Successfully Added!");
+        } else { // If itemId is NOT 0, we are updating an existing record
+            String sql = "UPDATE tbl_items SET item_name = ?, item_time = ?, item_location = ?, "
+                       + "item_type = ?, reported_by = ?, item_image = ? WHERE item_id = ?";
+            
+            conf.updateRecord(sql, Item.getText(), timedate.getText(), place.getText(), 
+                              Type.getText(), fullName, itemImageData, String.valueOf(itemId));
+            
+            JOptionPane.showMessageDialog(null, "Successfully Updated!");
+        }
+
+        // 4. SMART REDIRECT: Fixed logic to send Student Council to item.java
+        String userRole = Config.Session.type; 
+
+        if (userRole != null && userRole.equalsIgnoreCase("Admin")) {
+            // Admin goes back to the Management Dashboard
+            new Admin.ManageItem().setVisible(true);
+        } else {
+            // Student Council or Standard Users go back to the general Item page
+            // Make sure the class name 'item' matches your file (e.g., Item or item)
+            new Admin.Item().setVisible(true); 
+        }
+
+        // Close the current 'additem' window
+        this.dispose();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error saving data: " + e.getMessage());
     }
-
-    // 4. SMART REDIRECT: Use the session to decide the next page
-    String userRole = Config.Session.type; 
-
-    if (userRole != null && userRole.equalsIgnoreCase("Admin")) {
-        new Admin.ManageItem().setVisible(true);
-    } else {
-        // Redirect to standard view if not Admin
-        new Admin.ManageItem().setVisible(true); 
-    }
-
-    this.dispose();
 
 
     }//GEN-LAST:event_addU2MouseClicked

@@ -45,20 +45,33 @@ public class report extends javax.swing.JFrame {
     
 void displayUser() {
     config cn = new config();
+    
+    // We only select the columns that exist in tbl_logs
+    // Removed 'details' or any 'date_claimed' references
     String sql = "SELECT log_id, user_name, action, log_timestamp FROM tbl_logs ORDER BY log_id DESC";
     
-    // Test if data exists in the console
-    try (java.sql.ResultSet rs = cn.getData(sql)) {
-        if (!rs.isBeforeFirst()) {
+    try {
+        // 1. Get the data to check if it's empty (for debugging)
+        java.sql.ResultSet rs = cn.getData(sql);
+        
+        if (rs != null && !rs.isBeforeFirst()) {
             System.out.println("DEBUG: tbl_logs is currently empty!");
         } else {
-            System.out.println("DEBUG: Data found, sending to JTable...");
+            System.out.println("DEBUG: Logs found, updating JTable...");
         }
+        
+        // 2. Load the data into your JTable
+        // Note: Ensure your 'usertable' has 4 columns defined in the Design tab
+        cn.displayData(sql, usertable);
+        
+        // Close result set if needed (optional depending on your config class)
+        if (rs != null) rs.close();
+        
+    } catch (java.sql.SQLException e) {
+        System.out.println("SQL ERROR in displayUser: " + e.getMessage());
     } catch (Exception e) {
-        System.out.println("DEBUG ERROR: " + e.getMessage());
+        System.out.println("GENERAL ERROR in displayUser: " + e.getMessage());
     }
-
-    cn.displayData(sql, usertable);
 }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -407,18 +420,19 @@ void displayUser() {
 
     private void SearchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchTextKeyReleased
                                                                                    
+                                        
     config conf = new config();
     String keyword = SearchText.getText().trim();
     
-    // This searches through your system history logs
-    String sql = "SELECT log_id, user_name, action, details, log_timestamp "
-           + "FROM tbl_logs "
-           + "WHERE user_name LIKE '%" + keyword + "%' "
-           + "OR action LIKE '%" + keyword + "%' "
-           + "OR details LIKE '%" + keyword + "%' "
-           + "ORDER BY log_id DESC";
+    // Match the columns exactly with displayUser()
+    String sql = "SELECT log_id, user_name, action, log_timestamp "
+               + "FROM tbl_logs "
+               + "WHERE user_name LIKE '%" + keyword + "%' "
+               + "OR action LIKE '%" + keyword + "%' "
+               + "ORDER BY log_id DESC";
                
     conf.displayData(sql, usertable);
+
 
     }//GEN-LAST:event_SearchTextKeyReleased
 

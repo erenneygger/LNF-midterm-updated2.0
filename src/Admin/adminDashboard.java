@@ -158,6 +158,11 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Manage users");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
         Users.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 240, 80));
 
         jPanel1.add(Users, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, -1, -1));
@@ -176,8 +181,13 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Home");
-        Home.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 3, 230, 84));
+        jLabel5.setText("Reports");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
+        Home.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 3, 250, 84));
 
         jPanel1.add(Home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, -1, 90));
 
@@ -327,6 +337,28 @@ this.dispose();
     this.dispose(); 
 
     }//GEN-LAST:event_ApproveMouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+       // This opens your Reports/Logs page
+    // Make sure your class name is 'report' or 'Reports' (check your project tree)
+    report rp = new report(); 
+    rp.setVisible(true);
+    this.dispose(); 
+       // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+                                     
+    // 1. Create the instance of the users window
+    users userPage = new users(); 
+
+    // 2. Show the users window
+    userPage.setVisible(true);
+
+    // 3. Close the current Admin Dashboard
+    this.dispose();
+
+    }//GEN-LAST:event_jLabel6MouseClicked
 
            
     
