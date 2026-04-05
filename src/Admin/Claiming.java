@@ -83,13 +83,13 @@ public class Claiming extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Arial Black", 0, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Colonna MT", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("CLAIMING");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(416, 13, -1, 104));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, 104));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test3.png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 223, 115));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 20, 223, 115));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 130));
 
@@ -111,7 +111,7 @@ public class Claiming extends javax.swing.JFrame {
         });
         Users.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Users");
         Users.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 80));
@@ -131,7 +131,7 @@ public class Claiming extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Home");
 
@@ -174,7 +174,7 @@ public class Claiming extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Reports");
 
@@ -195,7 +195,7 @@ public class Claiming extends javax.swing.JFrame {
 
         jPanel3.add(Reports, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 250, -1));
 
-        jLabel3.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Settings");
         jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 80, 250, 90));
@@ -325,7 +325,7 @@ public class Claiming extends javax.swing.JFrame {
         });
         addU.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel11.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Colonna MT", 1, 36)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Claim");
         jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -335,7 +335,7 @@ public class Claiming extends javax.swing.JFrame {
         });
         addU.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 30));
 
-        jPanel4.add(addU, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 250, 240, 50));
+        jPanel4.add(addU, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 250, 240, 50));
         jPanel4.add(Email1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 240, 40));
 
         Pass.addActionListener(new java.awt.event.ActionListener() {
