@@ -77,7 +77,9 @@ public class profile extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         Pass = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -120,8 +122,14 @@ public class profile extends javax.swing.JFrame {
         jLabel1.setText("PROFILE");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, -30, -1, 183));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test3.png"))); // NOI18N
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -20, -1, -1));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/image-removebg-preview.png"))); // NOI18N
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, -30, -1, -1));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/image left.png"))); // NOI18N
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 0, 240, 180));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test1.png"))); // NOI18N
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, -10, 270, 160));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 110));
 
@@ -250,10 +258,10 @@ public class profile extends javax.swing.JFrame {
 
         jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 600, 400));
 
-        ln.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        ln.setFont(new java.awt.Font("Colonna MT", 1, 24)); // NOI18N
         jPanel4.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 310, 200, 26));
 
-        fn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        fn.setFont(new java.awt.Font("Colonna MT", 1, 24)); // NOI18N
         fn.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jPanel4.add(fn, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 310, 110, 30));
 
@@ -367,10 +375,12 @@ public class profile extends javax.swing.JFrame {
     private javax.swing.JLabel fn;
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

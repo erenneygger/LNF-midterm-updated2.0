@@ -48,6 +48,8 @@ public class additem extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         image_display = new javax.swing.JLabel();
@@ -82,13 +84,14 @@ public class additem extends javax.swing.JFrame {
         jLabel1.setText("ADD ITEM");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 340, 104));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test3.png"))); // NOI18N
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
-            }
-        });
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 223, 115));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/image-removebg-preview.png"))); // NOI18N
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, -30, -1, -1));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/image left.png"))); // NOI18N
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 0, 220, 180));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/test1.png"))); // NOI18N
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 270, 160));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 130));
 
@@ -240,14 +243,6 @@ public class additem extends javax.swing.JFrame {
     private void TypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TypeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TypeActionPerformed
-
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-                                   
-    Item itm = new Item();
-    itm.setVisible(true);
-    this.dispose(); 
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel2MouseClicked
 
     private void timedateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timedateActionPerformed
         // TODO add your handling code here:
@@ -430,6 +425,7 @@ public class additem extends javax.swing.JFrame {
     public javax.swing.JTextField firstname;
     public javax.swing.JLabel image_display;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     public javax.swing.JLabel jLabel12;
     public javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
@@ -439,6 +435,7 @@ public class additem extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
